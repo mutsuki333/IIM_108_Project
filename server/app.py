@@ -38,6 +38,8 @@ from blueprints.vendor_api import login_manager as vl
 vl.init_app(app)
 from blueprints.files import db as fd
 fd.init_app(app, uri='mongodb://localhost:27017/img')
+from blueprints.site_api import db as sd
+fd.init_app(app, uri='mongodb://localhost:27017/vendors')
 
 
 # routes
@@ -45,6 +47,8 @@ from blueprints.customer_api import customer_api
 app.register_blueprint(customer_api)
 from blueprints.vendor_api import vendor_api
 app.register_blueprint(vendor_api)
+from blueprints.site_api import site_api
+app.register_blueprint(site_api)
 
 from blueprints.files import files
 app.register_blueprint(files)
