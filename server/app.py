@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
 import sys
 
-db_user=sys.argv[1]
-db_host=sys.argv[2]
+# db_user=sys.argv[1]
+# db_host=sys.argv[2]
 
 db_user='root'
 db_host='localhost'
