@@ -12,19 +12,23 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 
 import { HttpRequestService } from "./service/http-request.service";
+import { AppRoutingModule } from './/app-routing.module';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ItemModifierComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     MatModule,
     FlexLayoutModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [HttpRequestService],
   bootstrap: [AppComponent]
