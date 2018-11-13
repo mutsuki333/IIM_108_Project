@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from "@angular/flex-layout";
+// import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -26,7 +26,7 @@ import { HomeComponent } from './components/home/home.component';
   imports: [
     BrowserModule,
     MatModule,
-    FlexLayoutModule,
+    // FlexLayoutModule,
     HttpClientModule,
     AppRoutingModule
   ],
