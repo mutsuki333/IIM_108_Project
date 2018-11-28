@@ -28,12 +28,16 @@ export class LoginComponent implements OnInit {
     .then(
       (response) => {
         console.log(response)
+        this.getProfile();
       }
     )
     .catch(
       (error) => console.log(error)
     );
 
+  }
+
+  getProfile(){
     this.httpRequestService.get_json('/vendor_api/profile')
     .then(
       (response) => {

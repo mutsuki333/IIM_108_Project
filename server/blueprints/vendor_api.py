@@ -97,7 +97,8 @@ def login():
         if user is None or not user.check_password(data.get('password')):
             return 'Invalid username or password'
         login_user(user, remember=True)
-        return jsonify(user.get_user_obj())
+        return 'success'
+        # return jsonify(user.get_user_obj())
     return 'login require'
 
 @vendor_api.route('/register', methods=['GET', 'POST'])
@@ -112,5 +113,6 @@ def register():
         user = User_V(username=data.get('username'))
         user.set_password(data.get('password'))
         user.add_user()
-        return jsonify(user.get_user_obj())
+        return 'success'
+        # return jsonify(user.get_user_obj())
     return 'login require'
