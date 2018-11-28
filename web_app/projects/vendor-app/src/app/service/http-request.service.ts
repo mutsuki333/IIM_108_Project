@@ -12,6 +12,15 @@ export class HttpRequestService {
   constructor(private http: HttpClient) { }
 
   public get(api:string): Promise<any[]> {
+    return this.http.get(this.host + api, {responseType: 'text'})
+    .toPromise()
+    .then((res) => {
+      const response: any = res;
+      return response;
+    })
+    .catch(this.errorHandler);
+  }
+  public get_json(api:string): Promise<any[]> {
     return this.http.get(this.host + api, this.headers)
     .toPromise()
     .then((res) => {
@@ -21,7 +30,25 @@ export class HttpRequestService {
     .catch(this.errorHandler);
   }
   public post(api:string,body:any): Promise<any[]> {
-    return this.http.post(this.host + api,body, this.headers)
+    return this.http.post(this.host + api, body, {responseType: 'text'})
+    .toPromise()
+    .then((res) => {
+      const response: any = res;
+      return response;
+    })
+    .catch(this.errorHandler);
+  }
+  public post_json(api:string,body:any): Promise<any[]> {
+    return this.http.post(this.host + api, body, this.headers)
+    .toPromise()
+    .then((res) => {
+      const response: any = res;
+      return response;
+    })
+    .catch(this.errorHandler);
+  }
+  public postFile(api:string,body:any): Promise<any[]> {
+    return this.http.post(this.host + api, body,{responseType:'text'})
     .toPromise()
     .then((res) => {
       const response: any = res;

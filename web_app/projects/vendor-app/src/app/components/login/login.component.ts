@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {NgForm} from '@angular/forms';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 import { HttpRequestService } from '../../service/http-request.service'
 
@@ -11,10 +12,19 @@ import { HttpRequestService } from '../../service/http-request.service'
 export class LoginComponent implements OnInit {
 
 
-  constructor(private httpRequestService: HttpRequestService) { }
+  constructor(
+    private httpRequestService: HttpRequestService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
-    this.httpRequestService.get('/vendor_api/is_logged_in')
+    /*test*/
+    let b = {username:'admin333',password:'admin333'}
+    this.httpRequestService.get('/vendor_api/logout')
+    /*test*/
+
+    this.httpRequestService.post_json('/vendor_api/login',b)
     .then(
       (response) => {
         console.log(response)
@@ -22,6 +32,19 @@ export class LoginComponent implements OnInit {
     )
     .catch(
       (error) => console.log(error)
+    );
+
+    this.httpRequestService.get_json('/vendor_api/profile')
+    .then(
+      (response) => {
+        console.log(response)
+      }
+    )
+    .catch(
+      (error) => {
+        console.log(error);
+        this.router.navigate(['/login'])
+      }
     );
   }
 
