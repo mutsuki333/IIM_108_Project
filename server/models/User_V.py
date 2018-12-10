@@ -7,7 +7,7 @@ from bson.objectid import ObjectId
 from models.Vendors_Set import Vendors_Set
 
 mongo=PyMongo()
-db = SQLAlchemy();
+db = SQLAlchemy()
 
 class User_V(UserMixin, db.Model):
     __tablename__ = 'users_vendor'

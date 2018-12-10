@@ -20,18 +20,20 @@ app.config.update(
 
 )
 
-# login_manager.init_app(app)
+# models User_C initialization
 from models.User_C import db as cdb
 cdb.init_app(app)
-
+from models.User_C import shopDB as user_shop_mongo
+user_shop_mongo.init_app(app,uri='mongodb://localhost:27017/shopping')
+# models User_V initialization
 from models.User_V import mongo, db
 mongo.init_app(app, uri='mongodb://localhost:27017/vendors')
 db.init_app(app)
-
-from models.Vendors_Set import mongo as vendors_db, img_mongo as img_db
+# models Vendors_Set initialization
+from models.Vendors_Set import mongo as vendors_db
 vendors_db.init_app(app, uri='mongodb://localhost:27017/vendors')
-img_db.init_app(app, uri='mongodb://localhost:27017/img')
 
+# blueprints initialization
 from blueprints.customer_api import login_manager as cl
 cl.init_app(app)
 from blueprints.vendor_api import login_manager as vl

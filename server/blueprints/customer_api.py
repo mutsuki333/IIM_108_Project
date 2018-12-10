@@ -46,6 +46,8 @@ def logout():
 def state():
     return '{}'.format(current_user.is_authenticated)
 
+# @customer_api.route('/')
+
 @customer_api.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -82,6 +84,7 @@ def register():
         last_name=data['last_name']
         )
         user.set_password(data['password'])
+        user.set_history()
         user.add_user()
         return jsonify(user.get_user_obj())
     return redirect(url_for('ping'))

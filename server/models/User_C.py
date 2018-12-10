@@ -1,9 +1,12 @@
 import re
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
+from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy();
+shopDB = PyMongo();
 
 '''
 class for customer user.
@@ -21,12 +24,21 @@ class User_C(UserMixin, db.Model):
     gender = db.Column(db.Enum('m','f','a'))
     first_name = db.Column(db.String(20))
     last_name = db.Column(db.String(20))
+    MongoID = db.Column(db.String(24))
+
+    record = None
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def set_record(self):
+        self.MongoID = '{}'.format(shopDB.db.customer_records.insert_one({'cart':[],'history':[]}).inserted_id)
+
+    def get_record(self):
+        self.record = shopDB.db.customer_records.find_one({'_id':ObjectId(self.MongoID)})
 
     def set_data(self, name, data):
         if name is None:return
@@ -49,12 +61,20 @@ class User_C(UserMixin, db.Model):
         'date_of_birth' :self.date_of_birth,
         'gender' :self.gender,
         'first_name' :self.first_name,
-        'last_name' :self.last_name
+        'last_name' :self.last_name,
+        'mongoID' : self.MongoID
         }
 
     def add_user(self):
         db.session.add(self)
         db.session.commit()
+
+    def get_cart(self):
+        pass
+    def addToCart(self,index):
+        pass
+    def removeFromCart(self,index):
+        pass
 
     def __repr__(self):
         return 'User: {}'.format(self.username)

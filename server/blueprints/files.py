@@ -7,9 +7,9 @@ import uuid
 files = Blueprint('files', __name__, url_prefix='/files')
 db =  PyMongo()
 
-@files.route('/upload/<filename>')
-def file(filename):
-    return db.send_file(filename=filename)
+# @files.route('/upload/<filename>')
+# def file(filename):
+#     return db.send_file(filename=filename)
 
 @files.route('/upload', methods=["POST"])
 @files.route('/upload/<base>/<filename>', methods=["POST"])
