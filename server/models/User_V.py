@@ -19,6 +19,8 @@ class User_V(UserMixin, db.Model):
     mobile = db.Column(db.String(20))
     MongoID = db.Column(db.String(24))
     banking = db.Column(db.String(128))
+    first_name = db.Column(db.String(20))
+    last_name = db.Column(db.String(20))
     profile = None
     Ctl = Vendors_Set()
 
@@ -41,6 +43,8 @@ class User_V(UserMixin, db.Model):
         if name =='email'and re.match('\w+@\w+',data)is not None:self.email=data
         elif name =='mobile' and re.match('09\d{8}',data)is not None:self.mobile=data
         elif name =='banking' :self.banking=data
+        elif name == 'first_name':self.first_name=data
+        elif name == 'last_name':self.last_name=data
         # elif name =='MongoID' and re.match('\w{24}',data)is not None:self.MongoID=data
         else: return 'Invalid {}'.format(name)
         self.add_user()
