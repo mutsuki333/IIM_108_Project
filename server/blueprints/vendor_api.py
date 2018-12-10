@@ -28,7 +28,7 @@ def ping():
 def profile():
     if not current_user.is_authenticated:
         # test_user()
-        return redirect('/vendor-app/login')
+        return redirect('http://54.71.220.94/vendor-app/login')
         # return 'login require'
     return jsonify(current_user.get_user_obj())
 
