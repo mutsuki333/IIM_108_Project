@@ -62,6 +62,9 @@ class User_V(UserMixin, db.Model):
         'username':self.username,
         'email' : self.email,
         'banking' : self.banking,
+        'mobile' : self.mobile,
+        'first_name' : self.first_name,
+        'last_name' : self.last_name,
         'join_date' : self.join_date,
         'MongoID' : self.MongoID,
         'obj' : obj
