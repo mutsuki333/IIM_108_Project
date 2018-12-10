@@ -16,6 +16,7 @@ class User_V(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     join_date = db.Column(db.DATE)
     email = db.Column(db.String(120))
+    mobile = db.Column(db.String(20))
     MongoID = db.Column(db.String(24))
     banking = db.Column(db.String(128))
     profile = None
@@ -38,6 +39,7 @@ class User_V(UserMixin, db.Model):
     def set_data(self, name, data):
         if name is None:return
         if name =='email'and re.match('\w+@\w+',data)is not None:self.email=data
+        elif name =='mobile' and re.match('09\d{8}',data)is not None:self.mobile=data
         elif name =='banking' :self.banking=data
         # elif name =='MongoID' and re.match('\w{24}',data)is not None:self.MongoID=data
         else: return 'Invalid {}'.format(name)

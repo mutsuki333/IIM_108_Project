@@ -83,9 +83,12 @@ class Vendors_Set():
             # array_filters=[{'elem.index': obj['index']}]
             # )
         else:
-            result = mongo.db.items.update_one({'categoryID':ObjectId(doc['_id']),'item.name':obj.get('name')},
-            {'$set':{'item':obj}})
-            if result.modified_count == 0: return [False,'name duplicated']
+            # result = mongo.db.items.update_one({'categoryID':ObjectId(doc['_id']),'item.name':obj.get('name')},
+            # {'$set':{'item':obj}})
+            # if result.modified_count == 0:
+            return [False,'name duplicated']
         if result is None:
             return [False,"No category name {}".format(name)]
         return [True,"success"]
+
+    # def delete_items(self,name)
