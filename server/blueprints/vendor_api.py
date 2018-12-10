@@ -27,9 +27,8 @@ def ping():
 @vendor_api.route('/profile')
 def profile():
     if not current_user.is_authenticated:
-        # test_user()
-        return redirect('http://54.71.220.94/vendor-app/login')
-        # return 'login require'
+        test_user()
+        return 'login require'
     return jsonify(current_user.get_user_obj())
 
 @vendor_api.route('/update_user_profile', methods=['GET', 'POST'])
