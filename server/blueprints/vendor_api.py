@@ -91,7 +91,8 @@ def state():
 def login():
     if request.method == 'POST':
         if current_user.is_authenticated:
-            return jsonify(current_user.get_user_obj())
+            # return jsonify(current_user.get_user_obj())
+            return 'is logged in'
         data = request.form or request.get_json()
         user = User_V.query.filter_by(username=data.get('username')).first()
         if user is None or not user.check_password(data.get('password')):
@@ -105,12 +106,19 @@ def login():
 def register():
     if request.method == 'POST':
         if current_user.is_authenticated:
-            return jsonify(current_user.get_user_obj())
+            # return jsonify(current_user.get_user_obj())
+            return 'is logged in'
         data = request.form or request.get_json()
         q = User_V.query.filter_by(username=data.get('username')).first()
         if q is not None:
             return 'Please use a different username.'
-        user = User_V(username=data.get('username'))
+        user = User_V(
+            username=data.get('username'),
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            mobile=data['mobile'],
+            email=data['email']
+        )
         user.set_password(data.get('password'))
         user.add_user()
         return 'success'
