@@ -7,6 +7,13 @@ from models.User_V import User_V
 vendor_api = Blueprint('vendor_api', __name__, url_prefix='/vendor_api')
 login_manager = LoginManager()
 
+def test_user():
+    user = User_V.query.filter_by(username="asd123").first()
+    if user is None or not user.check_password("asd123"):
+        return 'Invalid username or password'
+    login_user(user, remember=True)
+    return
+
 @login_manager.user_loader
 def load_user(id):
     user = User_V.query.get(int(id))
@@ -20,7 +27,9 @@ def ping():
 @vendor_api.route('/profile')
 def profile():
     if not current_user.is_authenticated:
-        return 'login require'
+        # test_user()
+        return redirect('/vendor-app/login')
+        # return 'login require'
     return jsonify(current_user.get_user_obj())
 
 @vendor_api.route('/update_user_profile', methods=['GET', 'POST'])

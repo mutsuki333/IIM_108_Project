@@ -14,7 +14,7 @@ app = Flask(__name__)
 # socketio = SocketIO(app)
 app.config.update(
     DEBUG=True,
-    SECRET_KEY='secret_xxx',
+    SECRET_KEY=b'\x92d\xf2\xae\x03g\xb7\xa0O\xac[D\x13\x08\x1a\x94',
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:admin333@{}/customer'.format(db_user,db_host),
     SQLALCHEMY_TRACK_MODIFICATIONS = False,
 
