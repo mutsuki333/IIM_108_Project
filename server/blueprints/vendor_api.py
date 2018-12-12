@@ -8,8 +8,8 @@ vendor_api = Blueprint('vendor_api', __name__, url_prefix='/vendor_api')
 login_manager = LoginManager()
 
 def test_user():
-    user = User_V.query.filter_by(username="asd123").first()
-    if user is None or not user.check_password("asd123"):
+    user = User_V.query.filter_by(username="admin333").first()
+    if user is None or not user.check_password("admin333"):
         return 'Invalid username or password'
     login_user(user, remember=True)
     return
@@ -27,7 +27,7 @@ def ping():
 @vendor_api.route('/profile')
 def profile():
     if not current_user.is_authenticated:
-        test_user()
+        # test_user()
         return 'login require'
     return jsonify(current_user.get_user_obj())
 
