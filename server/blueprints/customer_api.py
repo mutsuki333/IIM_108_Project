@@ -1,27 +1,41 @@
-from flask import Flask, url_for, request, redirect, jsonify, Blueprint
+from flask import Flask, url_for, request, redirect, jsonify, Blueprint, session
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from models.User_V import User_V
 from models.User_C import User_C
 
 customer_api = Blueprint('customer_api', __name__, url_prefix='/customer_api')
-
 login_manager = LoginManager()
+
+def test_user():
+    session['customer']='True'
+    session.pop('vendor')
+    user = User_C.query.filter_by(username="admin333").first()
+    login_user(user, remember=True)
 
 @login_manager.user_loader
 def load_user(id):
-    return User_C.query.get(int(id))
+    print('alpha2')
+    if 'vendor' in session and session['vendor']=='True':
+        user = User_V.query.get(int(id))
+        if user is not None and user.profile is None:user.init_profile()
+        return user
+    if 'customer' in session and session['customer']=='True':
+        return User_C.query.get(int(id))
+    return
 
 @customer_api.route('/profile')
 def profile():
     if not current_user.is_authenticated:
-        return redirect(url_for('ping'))
+        test_user()
+        # return 'login require'
     return jsonify(current_user.get_user_obj())
 
 @customer_api.route('/update_profile', methods=['GET', 'POST'])
 def update_profile():
     if not current_user.is_authenticated:
-        return redirect(url_for('customer_api.ping'))
+        return 'login require'
     try:
         data = request.get_json()
     except Exception as e:
@@ -32,45 +46,47 @@ def update_profile():
 
     return jsonify(current_user.get_user_obj())
 
-
 @customer_api.route('/ping')
 def ping():
     return 'pong'
 
 @customer_api.route('/logout')
 def logout():
-    logout_user()
-    return 'logged out!'
+    if 'customer' in session and session['customer']=='True':
+        logout_user()
+        session.pop('customer',None)
+        return 'logged out!'
+    return 'not logged in'
 
 @customer_api.route('/is_logged_in')
 def state():
     return '{}'.format(current_user.is_authenticated)
 
-# @customer_api.route('/')
-
 @customer_api.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        print('login')
         if current_user.is_authenticated:
-            return jsonify(current_user.get_user_obj())
-            # return '{}'.format(current_user.id)
+            # return jsonify(current_user.get_user_obj())
+            return 'is logged in'
             # return redirect('/ping')
-        try:
-            data = request.get_json()
-        except Exception as e:
-            raise e
+        data = request.form or request.get_json()
         user = User_C.query.filter_by(username=data['username']).first()
         if user is None or not user.check_password(data['password']):
             return 'Invalid username or password'
         login_user(user, remember=True)
-        return jsonify(user.get_user_obj())
-    return redirect(url_for('ping'))
+        session['customer']='True'
+        # return '{}'.format(current_user.is_authenticated)
+        return 'success'
+        # return jsonify(user.get_user_obj())
+    return 'login require'
 
 @customer_api.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         if current_user.is_authenticated:
-            return jsonify(current_user.get_user_obj())
+            # return jsonify(current_user.get_user_obj())
+            return 'is logged in'
         try:
             data = request.get_json()
         except Exception as e:
@@ -84,7 +100,8 @@ def register():
         last_name=data['last_name']
         )
         user.set_password(data['password'])
-        user.set_history()
+        user.set_record()
         user.add_user()
-        return jsonify(user.get_user_obj())
-    return redirect(url_for('ping'))
+        return 'success'
+        # return jsonify(user.get_user_obj())
+    return 'login require'

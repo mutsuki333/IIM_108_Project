@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
 import sys
@@ -61,6 +61,14 @@ app.register_blueprint(vendor)
 @app.route('/')
 def index():
     return 'Home'
+
+@app.route('/whoami')
+def whoami():
+    if session.get('vendor') is not None:
+        return 'vendor'
+    elif session.get('customer') is not None:
+        return 'customer'
+    return 'nobody'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5000)

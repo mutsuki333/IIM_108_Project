@@ -1,24 +1,34 @@
-from flask import Flask, url_for, request, redirect, jsonify, Blueprint
+from flask import Flask, url_for, request, redirect, jsonify, Blueprint, session
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from models.User_V import User_V
+from models.User_C import User_C
+
+test_mode=False
 
 vendor_api = Blueprint('vendor_api', __name__, url_prefix='/vendor_api')
 login_manager = LoginManager()
 
 def test_user():
+    session['vendor']='True'
+    if session.get('customer') is not None:session.pop('customer')
     user = User_V.query.filter_by(username="admin333").first()
-    if user is None or not user.check_password("admin333"):
-        return 'Invalid username or password'
+    if user.profile is None:user.init_profile()
     login_user(user, remember=True)
-    return
+
+
 
 @login_manager.user_loader
 def load_user(id):
-    user = User_V.query.get(int(id))
-    if user is not None and user.profile is None:user.init_profile()
-    return user
+    print('alpha1')
+    if 'vendor' in session and session['vendor']=='True':
+        user = User_V.query.get(int(id))
+        if user is not None and user.profile is None:user.init_profile()
+        return user
+    if 'customer' in session and session['customer']=='True':
+        return User_C.query.get(int(id))
+    return
 
 @vendor_api.route('/ping')
 def ping():
@@ -26,6 +36,7 @@ def ping():
 
 @vendor_api.route('/profile')
 def profile():
+    if test_mode:test_user()
     if not current_user.is_authenticated:
         # test_user()
         return 'login require'
@@ -33,6 +44,7 @@ def profile():
 
 @vendor_api.route('/update_user_profile', methods=['GET', 'POST'])
 def update_user_profile():
+    if test_mode:test_user()
     if not current_user.is_authenticated:
         return 'login require'
     try:
@@ -47,6 +59,7 @@ def update_user_profile():
 
 @vendor_api.route('/update_info', methods=['POST'])
 def update_info():
+    if test_mode:test_user()
     if not current_user.is_authenticated:
         return 'login require'
     try:
@@ -59,15 +72,27 @@ def update_info():
 
 @vendor_api.route('/new_category/<name>')
 def new_category(name):
+    if test_mode:test_user()
     if not current_user.is_authenticated:
         return 'login require'
     result = current_user.Ctl.new_category(name)
     if not result[0]:return result[1]
-    current_user.init_profile()
-    return jsonify(current_user.get_user_obj()['obj'])
+    return '{}'.format(result[1])
+    # current_user.init_profile()
+    # return jsonify(current_user.get_user_obj()['obj'])
+
+@vendor_api.route('/delete_category/<name>')
+def delete_category(name):
+    if test_mode:test_user()
+    if not current_user.is_authenticated:
+        return 'login require'
+    result = current_user.Ctl.delete_category(name)
+    if not result[0]:return result[1]
+    return '{}'.format(result[1])
 
 @vendor_api.route('/item_list')
 def item_list():
+    if test_mode:test_user()
     if not current_user.is_authenticated:
         return 'login require'
     result = current_user.Ctl.item_list()
@@ -75,24 +100,43 @@ def item_list():
     return jsonify(result[1])
 
 @vendor_api.route('/update_items/<cat_name>', methods=['POST'])
-def update_items(cat_name):
+@vendor_api.route('/update_items/<cat_name>/<item_index>', methods=['POST'])
+def update_items(cat_name,item_index=None):
+    if test_mode:test_user()
     if not current_user.is_authenticated:
         return 'login require'
     try:
         data = request.get_json()
     except Exception as e:
         raise e
-    result = current_user.Ctl.update_items(cat_name,data)
+    if item_index is None:
+        result = current_user.Ctl.update_items(cat_name,data)
+    else:
+        result = current_user.Ctl.update_items_index(cat_name,data,item_index)
     if not result[0]:return result[1]
     return redirect(url_for('vendor_api.item_list'))
 
+@vendor_api.route('/delete_items/<cat_name>/<item_name>')
+def delete_items(cat_name,item_name):
+    if test_mode:test_user()
+    if not current_user.is_authenticated:
+        return 'login require'
+    result = current_user.Ctl.delete_items(cat_name,item_name)
+    print(result)
+    if not result[0]:return result[1]
+    return result[1]
+
 @vendor_api.route('/logout')
 def logout():
-    logout_user()
-    return 'logged out!'
+    if 'vendor' in session and session['vendor']=='True':
+        logout_user()
+        session.pop('vendor',None)
+        return 'logged out!'
+    return 'not logged in'
 
 @vendor_api.route('/is_logged_in')
 def state():
+    if test_mode:test_user()
     return '{}'.format(current_user.is_authenticated)
 
 @vendor_api.route('/login', methods=['GET', 'POST'])
@@ -106,6 +150,7 @@ def login():
         if user is None or not user.check_password(data.get('password')):
             return 'Invalid username or password'
         login_user(user, remember=True)
+        session['vendor']='True'
         return 'success'
         # return jsonify(user.get_user_obj())
     return 'login require'

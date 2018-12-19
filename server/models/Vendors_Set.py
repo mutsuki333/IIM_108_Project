@@ -42,14 +42,17 @@ class Vendors_Set():
         {'$push':{'products':{'index':num+1,'name':name,'key':'{}'.format(new_cat.inserted_id)}}})
         return [True,"new category added"]
 
-    # def delete_category(self,name):
-    #     if self.vendor_ID is None:
-    #         return [False,"vendor_ID is None"]
-    #     obj = mongo.db.vendor.find_one({'_id':self.vendor_ID})
-    #     if obj is None: return [False,"No vendor object"]
-    #     if mongo.db.category.find_one({'vendorID':self.vendor_ID,'category_name':name}) is None:
-    #         return [False,"no category"]
-
+    def delete_category(self,name):
+        if self.vendor_ID is None:
+            return [False,"vendor_ID is None"]
+        doc = mongo.db.category.find_one({'vendorID':self.vendor_ID,'category_name':name})
+        if doc is None: return [False,"no category"]
+        for id in doc['items']:
+            mongo.db.items.delete_one({'_id':ObjectId(id)})
+        mongo.db.category.delete_one({'vendorID':self.vendor_ID,'category_name':name})
+        mongo.db.vendor.update_one({'_id':self.vendor_ID},
+        {'$pull':{'products':{'category_name':name}}})
+        return [True,"category deleted"]
 
 
     def item_list(self):
@@ -59,8 +62,10 @@ class Vendors_Set():
         for x in mongo.db.category.find({'vendorID':self.vendor_ID}):
             x.update({'item':[]})
             for y in mongo.db.items.find({'categoryID':x.get('_id')}):
-                y.pop('_id')
-                y.pop('categoryID')
+                y['_id']='{}'.format(y['_id'])
+                y['categoryID']='{}'.format(y['categoryID'])
+                # y.pop('_id')
+                # y.pop('categoryID')
                 x['item'].append(y)
             # print(x)
             x.pop('_id')
@@ -75,7 +80,7 @@ class Vendors_Set():
         if doc is None: return [False,"No category"]
         if mongo.db.items.find_one({'categoryID':ObjectId(doc['_id']),'item.name':obj.get('name')})is None:
         # if mongo.db.items.find_one({'vendorID':self.vendor_ID,'category_name':name,'items.name':obj.get('name')})
-            result = mongo.db.items.insert_one({'categoryID':ObjectId(doc['_id']),'index':doc['new_item_index'] + 1,'item':obj})
+            result = mongo.db.items.insert_one({'categoryID':ObjectId(doc['_id']),'index':doc['new_item_index'],'item':obj})
             mongo.db.category.update_one({'vendorID':self.vendor_ID,'category_name':name},
             {'$push':{'items':'{}'.format(result.inserted_id),'item_order':doc['new_item_index']},'$inc':{'new_item_index':1}})
             # result = mongo.db.items.update_one({'vendorID':self.vendor_ID,'category_name':name},
@@ -83,12 +88,39 @@ class Vendors_Set():
             # array_filters=[{'elem.index': obj['index']}]
             # )
         else:
-            # result = mongo.db.items.update_one({'categoryID':ObjectId(doc['_id']),'item.name':obj.get('name')},
-            # {'$set':{'item':obj}})
-            # if result.modified_count == 0:
-            return [False,'name duplicated']
+            result = mongo.db.items.update_one({'categoryID':ObjectId(doc['_id']),'item.name':obj.get('name')},
+            {'$set':{'item':obj}})
+            if result.modified_count == 0:
+                return [False,'name duplicated']
         if result is None:
             return [False,"No category name {}".format(name)]
         return [True,"success"]
 
-    # def delete_items(self,name)
+    def update_items_index(self,name,obj,index):
+        if self.vendor_ID is None:
+            return [False,"vendor_ID is None"]
+        doc = mongo.db.category.find_one({'vendorID':self.vendor_ID,'category_name':name})
+        if doc is None: return [False,"No category"]
+        if mongo.db.items.find_one({'categoryID':ObjectId(doc['_id']),'index':int(index)})is None:
+            return [False,"No index {} in {}".format(index,name)]
+        else:
+            mongo.db.items.update_one({'categoryID':ObjectId(doc['_id']),'index':int(index)},
+            {'$set':{'item':obj}})
+
+        return [True,"success"]
+
+    def delete_items(self,cat,name):
+        if self.vendor_ID is None:
+            return [False,"vendor_ID is None"]
+        doc = mongo.db.category.find_one({'vendorID':self.vendor_ID,'category_name':cat})
+        if doc is None: return [False,"No category"]
+        item = mongo.db.items.find_one({'categoryID':ObjectId(doc['_id']),'item.name':name})
+        if item is None:
+            return [False,"No item"]
+        else:
+            id=item['_id']
+            index=item['index']
+            mongo.db.items.delete_one({'categoryID':ObjectId(doc['_id']),'item.name':name})
+            mongo.db.category.update_one({'vendorID':self.vendor_ID,'category_name':cat},
+            {'$pull':{'items':'{}'.format(id),'item_order':index}})
+        return [True,"success"]

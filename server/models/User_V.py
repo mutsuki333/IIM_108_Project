@@ -31,7 +31,7 @@ class User_V(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def init_profile(self):
-        print("init")
+        # print("init")
         if self.MongoID is None:
             self.MongoID = '{}'.format(mongo.db.vendor.insert_one({'products':[]}).inserted_id)
             self.add_user()
