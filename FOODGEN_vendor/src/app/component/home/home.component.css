@@ -1,0 +1,81 @@
+.nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1;
+  background-color: #725F58 !important;
+  color: white !important;
+}
+
+.nav-footer{
+  position:fixed;
+  left: 0;
+  right: 0;
+  bottom:0;
+  width:100%;
+  background-color: #F8CF77 !important;
+  color: #725F58 !important;
+}
+
+.nav-header-container{
+  padding-bottom: 50px;
+}
+
+.nav-searchnav {
+  width: 100%;
+  height: 100%;
+  left: 0;
+}
+
+.toolbar-seprator {
+  flex: 1 1 auto;
+}
+mat-card-header{
+  height: 40px;
+}
+.nav-header-container{
+  padding-bottom: 45px;
+}
+
+.store-box{
+  margin: 8px;
+  border-radius: 8px;
+  height: 150px;
+}
+
+.store-image{
+  width: 100%;
+  height: 150px;
+}
+
+.store-info{
+  height: 150px;
+  right:0;
+}
+.index-banner{
+  margin-top: -15px;
+  margin-bottom: -15px;
+}
+.button-row{
+  padding-top: 20px;
+}
+
+.goods-box{
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  height: 150px;
+}
+
+.goods-image{
+  width: 100%;
+  height: 150px;
+  border-radius: 8px;
+}
+
+.goods-info{
+  height: 150px;
+  right:0;
+}

@@ -1,0 +1,66 @@
+.padding{
+  padding-top: 50px;
+}
+
+.user-image{
+  height: 250px;
+
+}
+
+
+.fixed-button{
+  z-index:5;
+  position : fixed;
+  display : flex;
+  align-self : flex-end;
+  bottom : 5%;
+  right: 3%;
+}
+
+.form-box{
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  height: 100%;
+  background-color: #F6EEE0;
+  color: #725F58;
+}
+
+.form-full-width{
+  width: 100%;
+}
+
+
+.example-header-image {
+  background-image: url('https://i.imgur.com/P5zUOzV.jpg');
+  background-size: cover;
+}
+mat-card{
+  background-color: #F6EEE0;
+  color: #725F58;
+}
+mat-card-image{
+  height: 250px;
+  width: 100%;
+}
+.goods-box{
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  height: 150px;
+}
+
+.goods-image{
+  width: 100%;
+  height: 150px;
+  border-radius: 8px;
+}
+
+.goods-info{
+  height: 150px;
+  right:0;
+}
+
+.button-row{
+  /*padding-top: 30px;*/
+}

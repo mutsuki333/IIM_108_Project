@@ -1,0 +1,64 @@
+<div class="header-pad">
+<div class="form-box mat-elevation-z4">
+  <mat-grid-list cols="3" rowHeight="70px">
+    <mat-grid-tile >
+      <div class="text-title">
+        <h2>註冊</h2>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <div align="right">
+        <img class="logo" src="https://imgur.com/1fOCQU7.jpg">
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-divider></mat-divider>
+  <div class="error" *ngFor="let err of err_msg">
+     {{err}}
+   </div>
+
+  <h4>姓</h4>
+  <mat-form-field class="form-full-width">
+    <input matInput placeholder="輸入姓" required [(ngModel)]='last_name'>
+  </mat-form-field>
+
+  <h4>名</h4>
+  <mat-form-field class="form-full-width">
+    <input matInput placeholder="輸入名" required [(ngModel)]='first_name'>
+  </mat-form-field>
+
+  <h4>帳號</h4>
+  <mat-form-field class="form-full-width">
+    <input matInput placeholder="輸入帳號" required [(ngModel)]='username'>
+  </mat-form-field>
+
+  <h4>手機</h4>
+  <mat-form-field class="form-full-width">
+    <input matInput type="phone" placeholder="輸入手機號碼" required [(ngModel)]='phone'>
+  </mat-form-field>
+
+  <h4>Email</h4>
+  <mat-form-field class="form-full-width">
+    <input matInput type="email" placeholder="輸入電子郵件" required [(ngModel)]='email'>
+  </mat-form-field>
+
+  <h4>密碼</h4>
+  <mat-form-field class="form-full-width">
+    <input matInput type="password" placeholder="輸入密碼" required [(ngModel)]='pwd'>
+  </mat-form-field>
+
+  <h4>確認密碼</h4>
+  <mat-form-field class="form-full-width">
+    <input matInput type="password" placeholder="重複輸入密碼" required [(ngModel)]='pwd_2'>
+  </mat-form-field>
+
+  <h5>建立帳戶並同意我們的<a>隱私服務條款</a></h5>
+  <button mat-flat-button (click)="submit()">註冊</button>
+  <h5>已經有帳號了?</h5>
+  <button mat-flat-button (click)="to_Login()">登入</button>
+
+
+</div>
+
+</div>

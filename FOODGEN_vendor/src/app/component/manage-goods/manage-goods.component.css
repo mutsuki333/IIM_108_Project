@@ -1,0 +1,71 @@
+mat-toolbar{
+  background-color: #725F58 !important;
+  color: white !important;
+}
+
+.nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.nav-header-container{
+  padding-bottom: 50px;
+}
+
+.nav-searchnav {
+  width: 100%;
+  height: 100%;
+  left: 0;
+}
+
+.toolbar-seprator {
+  flex: 1 1 auto;
+}
+
+.managetabs{
+  padding-top: 50px;
+}
+
+.goods-box{
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  height: 150px;
+}
+
+.goods-image{
+  width: 100%;
+  height: 150px;
+  border-radius: 8px;
+}
+
+.goods-info{
+  height: 150px;
+  right:0;
+}
+
+.button-row{
+  padding-top: 30px;
+}
+
+.form-box{
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  height: 100%;
+}
+
+.form-full-width{
+  width: 100%;
+}
+
+.error {
+  margin: 10px 0px;
+  padding-top: 50px;
+  color: #D8000C;
+  background-color: #FFD2D2;
+}

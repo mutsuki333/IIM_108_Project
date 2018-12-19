@@ -1,0 +1,35 @@
+<mat-nav-list>
+  <a href="" mat-list-item (click)="openLink($event)">
+    <span mat-line>上傳新頭貼</span>
+  </a>
+
+  <mat-expansion-panel mat-list-item>
+    <mat-expansion-panel-header>
+      <mat-panel-title mat-line>
+        修改個人資料
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-form-field style="width:100%">
+      <input matInput placeholder="Name">
+    </mat-form-field>
+
+    <mat-form-field style="width:100%">
+      <input matInput placeholder="Phone number">
+    </mat-form-field>
+    <mat-form-field style="width:100%">
+      <input matInput placeholder="Email">
+    </mat-form-field>
+    <mat-form-field style="width:100%">
+      <input matInput placeholder="Address">
+    </mat-form-field>
+    <mat-form-field style="width:100%">
+      <input matInput placeholder="Password">
+    </mat-form-field>
+    <mat-action-row>
+      <button mat-button>儲存</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+
+</mat-nav-list>

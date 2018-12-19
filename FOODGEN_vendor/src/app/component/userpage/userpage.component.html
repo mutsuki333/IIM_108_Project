@@ -1,0 +1,63 @@
+<div class="padding"></div>
+
+<mat-card class="example-card">
+  <img mat-card-image class="user-image" src="https://i.imgur.com/P5zUOzV.jpg">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{name}}</mat-card-title>
+    <mat-card-subtitle>現在點數:123pt</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content *ngIf="collapsed">
+    <mat-list>
+      <mat-list-item style="color: #725F58">
+        <mat-icon mat-list-icon>call</mat-icon>
+        <h4 mat-line>{{mobile}}</h4>
+        <p mat-line> Mobile </p>
+      </mat-list-item>
+      <mat-list-item style="color: #725F58">
+        <mat-icon mat-list-icon>email</mat-icon>
+        <h4 mat-line>{{email}}</h4>
+        <p mat-line> Email </p>
+      </mat-list-item>
+      <mat-list-item style="color: #725F58">
+        <mat-icon mat-list-icon>home</mat-icon>
+        <h4 mat-line>{{address}}</h4>
+        <p mat-line> Address </p>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="collapsed =! collapsed">{{collapsed ? '隱藏詳細資訊':'顯示詳細資訊'}}</button>
+    <button mat-button>儲值</button>
+  </mat-card-actions>
+</mat-card>
+
+<div class="index-banner">
+  <h5 style="font-weight: 550;font-size:1.5rem;color: black;padding-left:9px">我的收藏</h5>
+</div>
+
+<div class="goods-box mat-elevation-z4">
+  <mat-grid-list cols="2" rowHeight="150px">
+    <mat-grid-tile>
+      <img class="goods-image" src="https://i.imgur.com/HVPrChy.jpg">
+    </mat-grid-tile>
+    <mat-grid-tile rowspan="1">
+      <div class="goods-info">
+        <h3 style="margin-top:0px;margin-bottom:15px">商品名稱</h3>
+        <span style="color:#F8CF77;">$1000</span>
+        <h4 style="margin-top:15px;margin-bottom:15px">共1份</h4>
+        <div class="button-row">
+          <button mat-flat-button style="background-color:#F8CF77" (click)="goodsInCart.open()">加入購物車</button>
+          <button mat-button color="warn">刪除</button>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+
+
+<div class="fixed-button">
+  <button mat-fab style="background-color: #725F58" (click)="openBottomSheet()">
+    <mat-icon>create</mat-icon>
+  </button>
+</div>

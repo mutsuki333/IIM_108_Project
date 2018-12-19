@@ -1,0 +1,74 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<mat-toolbar class="nav-header">
+  <button mat-icon-button (click)="sideNav.open()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span>FOOD GEN</span>
+
+  <span class="toolbar-seprator"></span>
+
+  <button mat-icon-button (click)="searchNav.open()">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="nav-container" hasBackdrop="true" (backdropClick)="close('backdrop')">
+  <mat-sidenav #sideNav class="nav-sidenav" mode="over" fixedInViewport="true">
+    <mat-nav-list>
+      <mat-tab-group mat-align-tabs="center">
+
+        <mat-tab label="店家管理">
+          <div style="background: #F6EEE0;padding-top:10px;padding-bottom:10px;">
+            <mat-grid-list class="user-info" cols="1">
+                <div class="user-info-image"></div>
+                <span style="font-weight: lighter;color:#725F58"><h3>店家名稱</h3></span>
+                <span><p style="line-height:1rem;color:#725F58">這裡可以放文字</p></span>
+            </mat-grid-list>
+          </div>
+
+          <a [routerLink]="['/']" mat-list-item>首頁</a>
+          <a [routerLink]="['/']" mat-list-item>訂單管理</a>
+          <a [routerLink]="['/']" mat-list-item>公告與優惠管理</a>
+          <a [routerLink]="['/']" mat-list-item>登出</a>
+
+        </mat-tab>
+      </mat-tab-group>
+
+    </mat-nav-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+
+<mat-sidenav-container class="nav-container" hasBackdrop="true">
+  <mat-sidenav #searchNav mode="over" fixedInViewport="true" position="end" class="nav-searchnav">
+    <mat-toolbar class="nav-header">
+      <button mat-icon-button (click)="searchNav.close()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+
+      <mat-form-field class="search-field" floatLabel="never">
+        <input matInput [(ngModel)]="value" type="search" placeholder="商品種類、店家名稱" autofocus>
+      </mat-form-field>
+
+      <button mat-button mat-icon-button (click)="value=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+
+
+
+<router-outlet></router-outlet>

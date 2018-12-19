@@ -1,0 +1,100 @@
+<mat-horizontal-stepper>
+  <mat-step label="Step 1" state="phone">
+    <h4>餐點明細</h4>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> 名稱 </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- price Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> 價格 </th>
+        <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+      </ng-container>
+
+      <!-- quantity Column -->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> 數量 </th>
+        <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+      </ng-container>
+
+      <!-- total Column -->
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef> 小計 </th>
+        <td mat-cell *matCellDef="let element"> {{element.total}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+      (click)="selection.toggle(row)">
+      </tr>
+    </table>
+    <div style="padding-top:10px">
+      <button mat-button matStepperNext>下一步</button>
+    </div>
+  </mat-step>
+  <mat-step label="Step 2" state="chat">
+    <h4>用餐方式</h4>
+    <mat-form-field>
+      <mat-select [(value)]="selected" placeholder="選擇用餐方式">
+        <mat-option value="option1">內用</mat-option>
+        <mat-option value="option2">外帶</mat-option>
+        <mat-option value="option3">外送</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="選擇用餐日期">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker touchUi #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="選擇用餐時間" value="Sushi" type="time">
+    </mat-form-field>
+
+    <h4>付款方式</h4>
+    <mat-form-field>
+      <mat-select [(value)]="payment" placeholder="選擇付款方式">
+        <mat-option value="option1">信用卡</mat-option>
+        <mat-option value="option2">貨到付款 </mat-option>
+        <mat-option value="option3">網路ATM </mat-option>
+        <mat-option value="option4">點數 </mat-option>
+        <mat-option value="option5">LinePay  </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div>
+      <button mat-button matStepperPrevious>上一步</button>
+      <button mat-button matStepperNext>下一步</button>
+    </div>
+  </mat-step>
+  <mat-step label="Step 3">
+    <h4>確認訂單</h4>
+    <button mat-button>送出</button>
+  </mat-step>
+
+  <!-- Icon overrides. -->
+  <ng-template matStepperIcon="phone">
+    <mat-icon>call_end</mat-icon>
+  </ng-template>
+  <ng-template matStepperIcon="chat">
+    <mat-icon>forum</mat-icon>
+  </ng-template>
+</mat-horizontal-stepper>

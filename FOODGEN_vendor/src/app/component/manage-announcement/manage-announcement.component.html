@@ -1,0 +1,150 @@
+<mat-toolbar class="nav-header">
+  <button mat-icon-button (click)="history.back()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+
+  <span>公告與優惠管理</span>
+</mat-toolbar>
+
+<mat-tab-group mat-align-tabs="center"  class="managetabs" dynamicHeight>
+  <mat-tab label="公告管理">
+    <div class="goods-box mat-elevation-z4">
+      <mat-grid-list cols="1" rowHeight="150px">
+        <mat-grid-tile rowspan="1">
+          <div class="goods-info">
+            <h3>新店開幕 </h3>
+            <span>Date: 2018.10.19</span>
+            <div class="button-row">
+              <button mat-flat-button style="width:48%;background-color:#F8CF77;color:#725F58" (click)="annouceManagement.open()">修改</button>
+              <span class="toolbar-seprator"></span>
+              <button mat-button color="warn" style="width:48%;">刪除</button>
+            </div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+    <div class="goods-box mat-elevation-z4">
+      <mat-grid-list cols="1" rowHeight="150px">
+        <mat-grid-tile rowspan="1">
+          <div class="goods-info">
+            <h3>公告標題</h3>
+            <span>公告內容</span>
+            <div class="button-row">
+              <button mat-flat-button style="width:48%;background-color:#F8CF77;color:#725F58" (click)="annouceManagement.open()">修改</button>
+              <span class="toolbar-seprator"></span>
+              <button mat-button color="warn" style="width:48%;">刪除</button>
+            </div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-tab>
+  <mat-tab label="優惠管理">
+    <div class="goods-box mat-elevation-z4">
+      <mat-grid-list cols="1" rowHeight="150px">
+        <mat-grid-tile rowspan="1">
+          <div class="goods-info">
+            <h3>慶新店開幕!!全店打八折</h3>
+            <span>全品項打八折</span>
+            <div class="button-row">
+              <button mat-flat-button style="width:48%;background-color:#F8CF77;color:#725F58" (click)="discountManagement.open()">修改</button>
+              <span class="toolbar-seprator"></span>
+              <button mat-button color="warn" style="width:48%;">刪除</button>
+            </div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<div class="nav-header-container"></div>
+
+<footer>
+  <mat-toolbar class="nav-footer">
+      <button mat-flat-button (click)= "annouceManagement.open()"style="width:48%;background-color:#F6EEE0;color:#725F58;">新增公告</button>
+
+      <span class="toolbar-seprator"></span>
+
+      <button mat-flat-button (click)="discountManagement.open()"style="width:48%;background-color:#F6EEE0;color:#725F58">新增優惠</button>
+  </mat-toolbar>
+</footer>
+
+<mat-sidenav-container class="nav-container" hasBackdrop="true">
+  <mat-sidenav #annouceManagement mode="over" fixedInViewport="true" position="end" class="nav-searchnav">
+    <div class="nav-header-container">
+    <mat-toolbar class="nav-header" color="primary">
+      <button mat-icon-button (click)="annouceManagement.close()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <span>公告管理</span>
+
+      <span class="toolbar-seprator"></span>
+
+      <button mat-icon-button>
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-toolbar>
+    </div>
+
+    <div class="form-box mat-elevation-z4">
+      <h4>公告標題</h4>
+      <mat-form-field class="form-full-width">
+        <input matInput placeholder="輸入公告標題">
+      </mat-form-field>
+
+      <h4>公告內容</h4>
+      <mat-form-field class="form-full-width">
+        <input matInput #message maxlength="256" placeholder="輸入公告內容">
+          <mat-hint align="start"><strong>最多可輸入256字</strong> </mat-hint>
+          <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+      </mat-form-field>
+
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+
+<mat-sidenav-container class="nav-container" hasBackdrop="true">
+  <mat-sidenav #discountManagement mode="over" fixedInViewport="true" position="end" class="nav-searchnav">
+    <div class="nav-header-container">
+    <mat-toolbar class="nav-header" color="primary">
+      <button mat-icon-button (click)="discountManagement.close()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <span>優惠管理</span>
+
+      <span class="toolbar-seprator"></span>
+
+      <button mat-icon-button>
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-toolbar>
+    </div>
+
+    <div class="form-box mat-elevation-z4">
+      <h4>優惠標題</h4>
+      <mat-form-field class="form-full-width">
+        <input matInput placeholder="輸入優惠標題">
+      </mat-form-field>
+
+      <h4>優惠內容</h4>
+        <mat-select [(value)]="selected" placeholder="選擇折扣" class="form-full-width">
+          <mat-option value="option1">9折</mat-option>
+          <mat-option value="option2">8折</mat-option>
+          <mat-option value="option3">7折</mat-option>
+          <mat-option value="option4">6折</mat-option>
+        </mat-select>
+
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
