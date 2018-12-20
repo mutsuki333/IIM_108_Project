@@ -113,8 +113,9 @@ def update_items(cat_name,item_index=None):
         result = current_user.Ctl.update_items(cat_name,data)
     else:
         result = current_user.Ctl.update_items_index(cat_name,data,item_index)
-    if not result[0]:return result[1]
-    return redirect(url_for('vendor_api.item_list'))
+    return result[1]
+    # if not result[0]:return result[1]
+    # return redirect(url_for('vendor_api.item_list'))
 
 @vendor_api.route('/delete_items/<cat_name>/<item_name>')
 def delete_items(cat_name,item_name):

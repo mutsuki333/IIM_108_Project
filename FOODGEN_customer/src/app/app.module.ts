@@ -22,6 +22,7 @@ import { HttpRequestService } from "./service/http-request.service";
 import { TestComponent } from './component/test/test.component';
 import { UserOrderComponent } from './component/user-order/user-order.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
+import { ShoppingCartComponent } from './component/shopping-cart/shopping-cart.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
     RegisterComponent,
     TestComponent,
     UserOrderComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ShoppingCartComponent
   ],
   imports: [
     BrowserModule,

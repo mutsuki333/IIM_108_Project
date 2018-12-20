@@ -12,7 +12,7 @@ import { ManageGoodsComponent } from './component/manage-goods/manage-goods.comp
 import { TestComponent } from './component/test/test.component'
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/manage-goods', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent },

@@ -13,26 +13,29 @@
 <mat-tab-group mat-align-tabs="center"  class="managetabs" dynamicHeight>
   <div *ngFor="let cat of category_name">
   <mat-tab label="{{cat.category_name}}">
-    <mat-tab-group mat-align-tabs="center"   dynamicHeight>
-      <mat-tab label="出售中">
-        <div class="goods-box mat-elevation-z4" *ngFor='let item of cat.item'>
-          <mat-grid-list cols="2" rowHeight="150px" *ngIf='item.item.status=="sale"'>
-            <mat-grid-tile>
-              <img class="goods-image" src="{{item.item.pic}}">
-            </mat-grid-tile>
-            <mat-grid-tile rowspan="1">
-              <div class="goods-info">
-                <h3>{{item.item.name}}</h3>
-                <span>{{item.item.base_price}}</span>
-                <div class="button-row">
-                  <button mat-flat-button style="background-color:#F8CF77" (click)="goodsOnShelf.open()">修改</button>
-                  <button mat-button>下架</button>
-                </div>
-              </div>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </div>
-        <div class="goods-box mat-elevation-z4">
+    <div class="goods-box mat-elevation-z4" *ngFor='let item of cat.item'>
+      <mat-grid-list cols="2" rowHeight="150px">
+        <mat-grid-tile>
+          <img class="goods-image" src="{{item.item.pic}}">
+        </mat-grid-tile>
+        <mat-grid-tile rowspan="1">
+          <div class="goods-info">
+            <h3>{{item.item.name}}</h3>
+            <span>{{item.item.base_price}}元</span>
+            <div class="button-row">
+              <button mat-flat-button style="background-color:#F8CF77" (click)="
+                isNewItem=false;
+                setItem_tmp(item.item);
+                selected=cat.category_name;
+                goodsOnShelf.open();
+              ">修改</button>
+              <button mat-button (click)="DelItem(cat.category_name,item.item.name)">刪除</button>
+            </div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+    <div class="goods-box mat-elevation-z4">
           <mat-grid-list cols="2" rowHeight="150px">
             <mat-grid-tile>
               <img class="goods-image" src="http://54.71.220.94/files/item/5c1a5ce171ca3d54cb4eaffd">
@@ -42,52 +45,12 @@
                 <h3>新增商品</h3>
                 <!-- <span>a</span> -->
                 <div class="button-row">
-                  <button mat-flat-button style="background-color:#F8CF77" (click)="goodsOnShelf.open()">新增商品</button>
+                  <button mat-flat-button style="background-color:#F8CF77" (click)="setItem_tmp();isNewItem=true;goodsOnShelf.open();">新增商品</button>
                 </div>
               </div>
             </mat-grid-tile>
           </mat-grid-list>
         </div>
-      </mat-tab>
-      <mat-tab label="已下架">
-        <div class="goods-box mat-elevation-z4" *ngFor='let item of cat.item'>
-          <mat-grid-list cols="2" rowHeight="150px" *ngIf='item.item.status=="dowm"'>
-            <mat-grid-tile>
-              <img class="goods-image" src="{{item.item.pic}}">
-            </mat-grid-tile>
-            <mat-grid-tile rowspan="1">
-              <div class="goods-info">
-                <h3>{{item.item.name}}</h3>
-                <span>{{item.item.base_price}}</span>
-                <div class="button-row">
-                  <button mat-flat-button style="background-color:#F8CF77">上架</button>
-                  <button mat-button>刪除</button>
-                </div>
-              </div>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </div>
-      </mat-tab>
-      <mat-tab label="缺貨中">
-        <div class="goods-box mat-elevation-z4" *ngFor='let item of cat.item'>
-        <mat-grid-list cols="2" rowHeight="150px" *ngIf='item.item.status=="sold_out"'>
-          <mat-grid-tile>
-            <img class="goods-image" src="{{item.item.pic}}">
-          </mat-grid-tile>
-          <mat-grid-tile rowspan="1">
-            <div class="goods-info">
-              <h3>{{item.item.name}}</h3>
-              <span>{{item.item.base_price}}</span>
-              <div class="button-row">
-                <button mat-flat-button style="background-color:#F8CF77">上架</button>
-                <button mat-button>刪除</button>
-              </div>
-            </div>
-          </mat-grid-tile>
-        </mat-grid-list>
-      </div>
-      </mat-tab>
-    </mat-tab-group>
   </mat-tab>
   </div>
   <mat-tab label="編輯分類">
@@ -131,39 +94,40 @@
 
       <span class="toolbar-seprator"></span>
 
-      <button mat-icon-button>
+      <button mat-icon-button (click)="updateItem()">
         <mat-icon>send</mat-icon>
       </button>
     </mat-toolbar>
     </div>
+    <div class="update_error" *ngFor="let err of update_err_msg">
+       {{err}}
+    </div>
 
     <div class="form-box mat-elevation-z4">
       <h4>新增圖片</h4>
-      <input type="file" placeholder="輸入商品名稱" class="form-full-width">
+      <input type="file" (change)="onFileChanged($event)" #fileInput placeholder="輸入商品名稱" class="form-full-width">
+      <img src="{{item_tmp.pic}}" alt="" style="width:80%"class="form-full-width">
 
       <h4>商品名稱</h4>
       <mat-form-field class="form-full-width">
-        <input matInput placeholder="輸入商品名稱" [(ngModel)]='item'>
+        <input matInput placeholder="輸入商品名稱" [(ngModel)]='item_tmp.name'>
+      </mat-form-field>
+
+      <h4>商品介紹</h4>
+      <mat-form-field class="form-full-width">
+        <input matInput placeholder="輸入商品介紹" [(ngModel)]='item_tmp.description'>
       </mat-form-field>
 
       <h4>種類</h4>
       <mat-form-field class="form-full-width">
         <mat-select [(value)]="selected" placeholder="選擇商品種類">
-          <mat-option value="option1">早餐</mat-option>
-          <mat-option value="option2">午餐</mat-option>
-          <mat-option value="option3">晚餐</mat-option>
-          <mat-option value="option4">宵夜</mat-option>
+          <mat-option *ngFor="let cat of cats" value="{{cat}}" >{{cat}}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <h4>價格</h4>
       <mat-form-field class="form-full-width">
-        <input matInput type="number" placeholder="輸入價格">
-      </mat-form-field>
-
-      <h4>數量</h4>
-      <mat-form-field class="form-full-width">
-        <input matInput type="number" placeholder="輸入數量">
+        <input matInput type="number" placeholder="輸入價格" [(ngModel)]="item_tmp.base_price">
       </mat-form-field>
 
       <h4>規格</h4>
@@ -174,7 +138,7 @@
         {{option.name}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
-        <input placeholder="選擇產品規格"
+        <input placeholder="輸入產品規格"
            [matChipInputFor]="chipList"
            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
            [matChipInputAddOnBlur]="addOnBlur"
@@ -182,8 +146,8 @@
         </mat-chip-list>
       </mat-form-field>
 
-
     </div>
+
   </mat-sidenav>
 
   <mat-sidenav-content>
