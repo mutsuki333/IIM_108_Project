@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { HttpRequestService } from '../../service/http-request.service'
 
 @Component({
   selector: 'app-navigation',
@@ -8,9 +11,18 @@ import { Component, OnInit } from '@angular/core';
 export class NavigationComponent implements OnInit {
   value;
   close;
-  constructor() { }
+  constructor(
+    private httpRequestService: HttpRequestService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+  }
+  logout(){
+    this.httpRequestService.get('/vendor_api/logout')
+    .then(
+      ()=>this.router.navigate(['/login'])
+    )
   }
 
 }

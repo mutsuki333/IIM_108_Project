@@ -47,6 +47,7 @@ export class ManageGoodsComponent implements OnInit {
   item_tmp:Item={}
   imgID=null;
   isNewItem:boolean;
+  index_tmp:number;
   selectedFile: File;
 
   onFileChanged(event) {
@@ -109,7 +110,7 @@ export class ManageGoodsComponent implements OnInit {
     this.httpRequestService.get_json('/vendor_api/item_list')
     .then(
       (response)=>{
-        console.log(response);
+        // console.log(response);
         this.category_name=response;
         for (let cat of response) {
             this.cats.push(cat.category_name)
@@ -121,7 +122,7 @@ export class ManageGoodsComponent implements OnInit {
       this.router.navigate(['/login']);
       console.log(error)})
   }
-  updateItem(){
+  updateItem(goodsOnShelf:any){
     console.log(this.isNewItem)
     let valid = true;
     if(this.item_tmp.name==''||this.item_tmp.name==undefined){
@@ -144,14 +145,15 @@ export class ManageGoodsComponent implements OnInit {
           this.item_tmp.attribute.push(this.options[i].name)
         }
       }
-      else{
-
-      }
-      this.httpRequestService.post('/vendor_api/update_items/'+this.selected,this.item_tmp)
+      let url=this.isNewItem?'/vendor_api/update_items/'+this.selected:'/vendor_api/update_items/'+this.selected+'/'+this.index_tmp
+      this.httpRequestService.post(url,this.item_tmp)
       .then(
         (response)=>{
           console.log(response)
-          if(response.toString()=='success')this.ngOnInit()
+          if(response.toString()=='success'){
+            this.ngOnInit();
+            goodsOnShelf.close()
+          }
           else this.update_err_msg.push(response.toString())
         }
       )

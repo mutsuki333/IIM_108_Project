@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   phone: string;
   first_name: string='';
   last_name: string='';
+  shop_name:string='';
   username: string;
   email: string;
   pwd: string;
@@ -56,6 +57,10 @@ export class RegisterComponent implements OnInit {
       this.err_msg.push("請輸入名")
       valid=false;
     }
+    if(this.shop_name == ''){
+      this.err_msg.push("請輸入店名")
+      valid=false;
+    }
     if(!this.usr_re.test(this.username)){
       this.err_msg.push("帳號格式錯誤");
       valid=false;
@@ -85,7 +90,8 @@ export class RegisterComponent implements OnInit {
         mobile:this.phone,
         first_name:this.first_name,
         last_name:this.last_name,
-        email:this.email
+        email:this.email,
+        shop_name:this.shop_name
       }
       this.httpRequestService.post('/vendor_api/register',b)
       .then(

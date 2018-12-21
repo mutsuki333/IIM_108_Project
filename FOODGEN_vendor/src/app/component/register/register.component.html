@@ -28,7 +28,12 @@
     <input matInput placeholder="輸入名" required [(ngModel)]='first_name'>
   </mat-form-field>
 
-  <h4>帳號</h4>
+  <h4>店名</h4>
+  <mat-form-field class="form-full-width">
+    <input matInput placeholder="輸入店名" required [(ngModel)]='shop_name'>
+  </mat-form-field>
+
+  <h4>帳號</h4><small>5為位英數字</small>
   <mat-form-field class="form-full-width">
     <input matInput placeholder="輸入帳號" required [(ngModel)]='username'>
   </mat-form-field>
@@ -43,7 +48,7 @@
     <input matInput type="email" placeholder="輸入電子郵件" required [(ngModel)]='email'>
   </mat-form-field>
 
-  <h4>密碼</h4>
+  <h4>密碼</h4><small>5為位英數字</small>
   <mat-form-field class="form-full-width">
     <input matInput type="password" placeholder="輸入密碼" required [(ngModel)]='pwd'>
   </mat-form-field>

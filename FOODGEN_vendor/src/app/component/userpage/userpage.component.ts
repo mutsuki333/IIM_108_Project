@@ -14,6 +14,7 @@ export class UserpageComponent implements OnInit {
   goodsInCart;
 
   name:string;
+  shop_name:string;
   mobile:string;
   email:string;
   address:string;
@@ -33,10 +34,11 @@ export class UserpageComponent implements OnInit {
     this.httpRequestService.get_json('/vendor_api/profile')
     .then(
       (response)=>{
-        console.log(response['obj']['info']['address'])
+        // console.log(response['obj']['info']['address'])
         this.mobile=response['mobile']
         this.email=response['email']
-        this.name=response['last_name']+response['first_name']
+        this.name=response['last_name']
+        this.shop_name=response['obj']['info']['shop_name']
         response['obj']['info']['address']==undefined?
         this.address='[無]':
         this.address = response['obj']['info']['address'];
@@ -57,6 +59,9 @@ export class UserpageComponent implements OnInit {
   templateUrl: 'editUserInfo.html',
 })
 export class EditUserInfo {
+  mobile;
+  email;
+
   constructor(private bottomSheetRef: MatBottomSheetRef<EditUserInfo>) {}
 
   openLink(event: MouseEvent): void {

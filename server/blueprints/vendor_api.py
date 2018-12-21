@@ -174,8 +174,13 @@ def register():
             email=data['email']
         )
         user.set_password(data.get('password'))
-        current_user.init_profile()
-        current_user.Ctl.set_profile(data)
+        user.init_profile()
+        del data['username']
+        del data['first_name']
+        del data['last_name']
+        del data['mobile']
+        del data['email']
+        user.Ctl.set_profile(data)
         user.add_user()
         return 'success'
         # return jsonify(user.get_user_obj())

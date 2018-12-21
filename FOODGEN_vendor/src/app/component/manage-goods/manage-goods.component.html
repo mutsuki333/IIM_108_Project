@@ -1,5 +1,5 @@
 <mat-toolbar class="nav-header">
-  <button mat-icon-button (click)="history.back()">
+  <button mat-icon-button [routerLink]="['/userpage']">
     <mat-icon>keyboard_arrow_left</mat-icon>
   </button>
 
@@ -24,6 +24,7 @@
             <span>{{item.item.base_price}}元</span>
             <div class="button-row">
               <button mat-flat-button style="background-color:#F8CF77" (click)="
+                index_tmp=item.index;
                 isNewItem=false;
                 setItem_tmp(item.item);
                 selected=cat.category_name;
@@ -94,7 +95,7 @@
 
       <span class="toolbar-seprator"></span>
 
-      <button mat-icon-button (click)="updateItem()">
+      <button mat-icon-button (click)="updateItem(goodsOnShelf);">
         <mat-icon>send</mat-icon>
       </button>
     </mat-toolbar>

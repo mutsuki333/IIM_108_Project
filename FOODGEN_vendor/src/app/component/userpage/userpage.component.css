@@ -64,3 +64,8 @@ mat-card-image{
 .button-row{
   /*padding-top: 30px;*/
 }
+
+.manage-button{
+  padding-left: 5%;
+
+}
