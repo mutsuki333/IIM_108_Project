@@ -55,15 +55,12 @@ export class ManageGoodsComponent implements OnInit {
     this.selectedFile = event.target.files[0]
     const uploadData = new FormData();
     uploadData.append('file', this.selectedFile, this.selectedFile.name);
-    this.httpRequestService.postFile('/files/upload?base=item&filename=test.jpg', uploadData)
+    this.httpRequestService.postFile('/files/upload?base=users&filename=test.jpg', uploadData)
     .then(
       (response) => {
-        console.log(response);
         let tmp:string = String(response);
-        // this.item_tmp.pic='http://54.71.220.94'+tmp;
-        this.item_tmp.pic='http://0.0.0.0:5000'+tmp;
+        this.item_tmp.pic=this.httpRequestService.host+tmp;
         this.imgID=tmp.split('/')[3];
-        console.log(this.imgID);
       }
     )
   }

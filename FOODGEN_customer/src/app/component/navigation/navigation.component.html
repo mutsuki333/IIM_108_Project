@@ -1,5 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<mat-toolbar class="nav-header">
+
+<mat-toolbar class="nav-header" >
   <button mat-icon-button (click)="sideNav.open()">
     <mat-icon>menu</mat-icon>
   </button>
@@ -13,39 +14,28 @@
   </button>
 </mat-toolbar>
 
-<mat-sidenav-container class="nav-container" hasBackdrop="true" (backdropClick)="close('backdrop')">
+<mat-sidenav-container class="nav-container" hasBackdrop="true" (backdropClick)="close('backdrop')" (focusout)="sideNav.close()">
   <mat-sidenav #sideNav class="nav-sidenav" mode="over" fixedInViewport="true">
     <mat-nav-list>
       <mat-tab-group mat-align-tabs="center">
-        <mat-tab label="買家管理">
-          <div style="background: #725F58;padding-top:10px;padding-bottom:10px">
-            <mat-grid-list class="user-info" cols="1">
-                <div class="user-info-image"></div>
-                <span style="font-weight: lighter;color:white"><h3>買家名稱</h3></span>
-                <span><p style="line-height:1rem;color:white">這裡可以放文字</p></span>
-            </mat-grid-list>
-          </div>
-
-
-          <a [routerLink]="['/']" mat-list-item><mat-icon mat-list-icon>home</mat-icon>首頁</a>
-          <a [routerLink]="['/']" mat-list-item><mat-icon mat-list-icon>person</mat-icon>會員專區</a>
-          <a [routerLink]="['/']" mat-list-item><mat-icon mat-list-icon>shopping_cart</mat-icon>購物車</a>
-          <a [routerLink]="['/']" mat-list-item><mat-icon mat-list-icon>remove_circle</mat-icon>登出</a>
-        </mat-tab>
 
         <mat-tab label="店家管理">
-          <div style="background: #F6EEE0;padding-top:10px;padding-bottom:10px;">
+          <div style="background: #F6EEE0;padding-top:10px;padding-bottom:10px;" *ngIf="is_logged_in">
             <mat-grid-list class="user-info" cols="1">
-                <div class="user-info-image"></div>
-                <span style="font-weight: lighter;color:#725F58"><h3>店家名稱</h3></span>
-                <span><p style="line-height:1rem;color:#725F58">這裡可以放文字</p></span>
+                <div class="user-info-image">
+                  <img src="{{photo}}" alt="">
+                </div>
+                <span style="font-weight: lighter;color:#725F58"><h3>{{shop_name}}</h3></span>
+                <span><p style="line-height:1rem;color:#725F58">歡迎回來</p></span>
             </mat-grid-list>
           </div>
 
-          <a [routerLink]="['/']" mat-list-item>首頁</a>
-          <a [routerLink]="['/']" mat-list-item>訂單管理</a>
-          <a [routerLink]="['/']" mat-list-item>公告與優惠管理</a>
-          <a [routerLink]="['/']" mat-list-item>登出</a>
+          <a [routerLink]="['/home']" mat-list-item (click)="sideNav.close()">首頁</a>
+          <a [routerLink]="['/userpage']" mat-list-item (click)="sideNav.close()">我的頁面</a>
+          <a [routerLink]="['/manage-order']" mat-list-item (click)="sideNav.close()">管理訂單</a>
+          <a [routerLink]="['/shopping-cart']" mat-list-item (click)="sideNav.close()">我的購物車</a>
+          <a *ngIf="is_logged_in" (click)="logout();sideNav.close();" mat-list-item>登出</a>
+          <a *ngIf="!is_logged_in" [routerLink]="['/login']" (click)="sideNav.close();" mat-list-item>登入</a>
 
         </mat-tab>
       </mat-tab-group>

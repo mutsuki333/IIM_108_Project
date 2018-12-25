@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.httpRequestService.get('/vendor_api/is_logged_in')
+    this.httpRequestService.get('/customer_api/is_logged_in')
     .then(
       (response) => {
         if(response.toString()=='True')
@@ -45,9 +45,6 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  to_Login(){
-    this.router.navigate(['/login'])
-  }
   submit(){
     this.err_msg=[];
     let valid=true;
@@ -88,9 +85,9 @@ export class RegisterComponent implements OnInit {
         mobile:this.phone,
         first_name:this.first_name,
         last_name:this.last_name,
-        email:this.email
+        email:this.email,
       }
-      this.httpRequestService.post('/vendor_api/register',b)
+      this.httpRequestService.post('/customer_api/register',b)
       .then(
         (response) => {
           if(response.toString()=='success')

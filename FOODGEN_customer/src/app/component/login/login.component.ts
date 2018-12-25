@@ -23,12 +23,8 @@ export class LoginComponent implements OnInit {
     private httpRequestService: HttpRequestService
   ) { }
 
-  route_register(){
-    this.router.navigate(['/register'])
-  }
-
   ngOnInit() {
-    this.httpRequestService.get('/vendor_api/is_logged_in')
+    this.httpRequestService.get('/customer_api/is_logged_in')
     .then(
       (response) => {
         if(response.toString()=='True')
@@ -53,7 +49,7 @@ export class LoginComponent implements OnInit {
     if(!valid)window.scroll(0,0);
     else{
       let b={username:this.username,password:this.pwd}
-      this.httpRequestService.post('/vendor_api/login',b)
+      this.httpRequestService.post('/customer_api/login',b)
       .then(
         (response)=>{
           console.log(response)

@@ -1,5 +1,5 @@
 <mat-toolbar class="nav-header">
-  <button mat-icon-button (click)="history.back()">
+  <button mat-icon-button [routerLink]="['/home']">
     <mat-icon>keyboard_arrow_left</mat-icon>
   </button>
   <span>購物車</span>
@@ -7,76 +7,18 @@
 
 <div class="nav-header-container"></div>
 
-    <div class="goods-box mat-elevation-z4">
+    <div class="goods-box mat-elevation-z4" *ngFor="let item of items">
       <mat-grid-list cols="2" rowHeight="150px">
         <mat-grid-tile>
           <img class="goods-image" src="https://i.imgur.com/HVPrChy.jpg">
         </mat-grid-tile>
         <mat-grid-tile rowspan="1">
           <div class="goods-info">
-            <h3 style="margin-top:0px;margin-bottom:15px">商品名稱</h3>
-            <span style="color:#F8CF77;">$1000</span>
+            <h3 style="margin-top:0px;margin-bottom:15px">{{item.item.name}}</h3>
+            <span style="color:#F8CF77;">{{item.item.base_price}}</span>
             <h4 style="margin-top:15px;margin-bottom:15px">共1份</h4>
             <div class="button-row">
-              <button mat-flat-button style="background-color:#F8CF77" (click)="goodsInCart.open()">更改</button>
-              <button mat-button color="warn">刪除</button>
-            </div>
-          </div>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-
-    <div class="goods-box mat-elevation-z4">
-      <mat-grid-list cols="2" rowHeight="150px">
-        <mat-grid-tile>
-          <img class="goods-image" src="https://i.imgur.com/HVPrChy.jpg">
-        </mat-grid-tile>
-        <mat-grid-tile rowspan="1">
-          <div class="goods-info">
-            <h3 style="margin-top:0px;margin-bottom:15px">商品名稱</h3>
-            <span style="color:#F8CF77;">$1000</span>
-            <h4 style="margin-top:15px;margin-bottom:15px">共1份</h4>
-            <div class="button-row">
-              <button mat-flat-button style="background-color:#F8CF77" (click)="goodsInCart.open()">更改</button>
-              <button mat-button color="warn">刪除</button>
-            </div>
-          </div>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-
-    <div class="goods-box mat-elevation-z4">
-      <mat-grid-list cols="2" rowHeight="150px">
-        <mat-grid-tile>
-          <img class="goods-image" src="https://i.imgur.com/HVPrChy.jpg">
-        </mat-grid-tile>
-        <mat-grid-tile rowspan="1">
-          <div class="goods-info">
-            <h3 style="margin-top:0px;margin-bottom:15px">商品名稱</h3>
-            <span style="color:#F8CF77;">$1000</span>
-            <h4 style="margin-top:15px;margin-bottom:15px">共1份</h4>
-            <div class="button-row">
-              <button mat-flat-button style="background-color:#F8CF77" (click)="goodsInCart.open()">更改</button>
-              <button mat-button color="warn">刪除</button>
-            </div>
-          </div>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-
-    <div class="goods-box mat-elevation-z4">
-      <mat-grid-list cols="2" rowHeight="150px">
-        <mat-grid-tile>
-          <img class="goods-image" src="https://i.imgur.com/HVPrChy.jpg">
-        </mat-grid-tile>
-        <mat-grid-tile rowspan="1">
-          <div class="goods-info">
-            <h3 style="margin-top:0px;margin-bottom:15px">商品名稱</h3>
-            <span style="color:#F8CF77;">$1000</span>
-            <h4 style="margin-top:15px;margin-bottom:15px">共1份</h4>
-            <div class="button-row">
-              <button mat-flat-button style="background-color:#F8CF77" (click)="goodsInCart.open()">更改</button>
-              <button mat-button color="warn">刪除</button>
+              <button mat-button color="warn" (click)="remove_from_cart(item._id)">刪除</button>
             </div>
           </div>
         </mat-grid-tile>
@@ -91,10 +33,10 @@
         <mat-toolbar-row>
           <span>訂單總金額:</span>
           <span class="toolbar-seprator"></span>
-          <span>$ 4000</span>
+          <span>{{amount}}</span>
         </mat-toolbar-row>
         <mat-toolbar-row>
-          <button mat-flat-button color="warn" style="width:100%">確認購買(送出訂單)</button>
+          <button mat-flat-button color="warn" style="width:100%" (click)="send()">確認購買(送出訂單)</button>
         </mat-toolbar-row>
       </mat-toolbar>
     </footer>

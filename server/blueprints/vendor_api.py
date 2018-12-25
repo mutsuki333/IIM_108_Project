@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models.User_V import User_V
 from models.User_C import User_C
 
-test_mode=False
+test_mode=True
 
 vendor_api = Blueprint('vendor_api', __name__, url_prefix='/vendor_api')
 login_manager = LoginManager()
@@ -179,6 +179,7 @@ def register():
         del data['first_name']
         del data['last_name']
         del data['mobile']
+        del data['password']
         del data['email']
         user.Ctl.set_profile(data)
         user.add_user()

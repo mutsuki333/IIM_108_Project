@@ -23,6 +23,7 @@ import { TestComponent } from './component/test/test.component';
 import { UserOrderComponent } from './component/user-order/user-order.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { ShoppingCartComponent } from './component/shopping-cart/shopping-cart.component';
+import { ManageOrderComponent } from './component/manage-order/manage-order.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ShoppingCartComponent } from './component/shopping-cart/shopping-cart.c
     TestComponent,
     UserOrderComponent,
     NotFoundComponent,
-    ShoppingCartComponent
+    ShoppingCartComponent,
+    ManageOrderComponent
   ],
   imports: [
     BrowserModule,

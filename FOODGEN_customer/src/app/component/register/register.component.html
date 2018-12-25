@@ -28,7 +28,7 @@
     <input matInput placeholder="輸入名" required [(ngModel)]='first_name'>
   </mat-form-field>
 
-  <h4>帳號</h4>
+  <h4>帳號</h4><small>5位英數字</small>
   <mat-form-field class="form-full-width">
     <input matInput placeholder="輸入帳號" required [(ngModel)]='username'>
   </mat-form-field>
@@ -43,7 +43,7 @@
     <input matInput type="email" placeholder="輸入電子郵件" required [(ngModel)]='email'>
   </mat-form-field>
 
-  <h4>密碼</h4>
+  <h4>密碼</h4><small>5位英數字</small>
   <mat-form-field class="form-full-width">
     <input matInput type="password" placeholder="輸入密碼" required [(ngModel)]='pwd'>
   </mat-form-field>
@@ -56,7 +56,7 @@
   <h5>建立帳戶並同意我們的<a>隱私服務條款</a></h5>
   <button mat-flat-button (click)="submit()">註冊</button>
   <h5>已經有帳號了?</h5>
-  <button mat-flat-button (click)="to_Login()">登入</button>
+  <button [routerLink]="['/login']" mat-flat-button >登入</button>
 
 
 </div>

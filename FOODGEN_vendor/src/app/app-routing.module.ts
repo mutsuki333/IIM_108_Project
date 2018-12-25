@@ -9,6 +9,7 @@ import { UserpageComponent } from './component/userpage/userpage.component'
 import { NotFoundComponent } from './component/not-found/not-found.component'
 import { ManageGoodsComponent } from './component/manage-goods/manage-goods.component'
 import { ManageOrderComponent } from './component/manage-order/manage-order.component'
+import { ManageAnnouncementComponent } from './component/manage-announcement/manage-announcement.component'
 
 import { TestComponent } from './component/test/test.component'
 
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'userpage', component: UserpageComponent },
   { path: 'manage-order', component: ManageOrderComponent },
   { path: 'manage-goods', component: ManageGoodsComponent },
+  { path: 'manage-announcement', component: ManageAnnouncementComponent },
   { path: '404', component: NotFoundComponent},
   { path: '**', redirectTo: '/404'},
   { path: 'test', component: TestComponent}

@@ -23,8 +23,9 @@ app.config.update(
 # models User_C initialization
 from models.User_C import db as cdb
 cdb.init_app(app)
-from models.User_C import shopDB as user_shop_mongo
+from models.User_C import shopDB as user_shop_mongo, item as user_item_mongo
 user_shop_mongo.init_app(app,uri='mongodb://localhost:27017/shopping')
+user_item_mongo.init_app(app,uri='mongodb://localhost:27017/vendors')
 # models User_V initialization
 from models.User_V import mongo, db
 mongo.init_app(app, uri='mongodb://localhost:27017/vendors')
@@ -39,9 +40,9 @@ cl.init_app(app)
 from blueprints.vendor_api import login_manager as vl
 vl.init_app(app)
 from blueprints.files import db as fd
-fd.init_app(app, uri='mongodb://localhost:27017/img')
-from blueprints.site_api import db as sd
 fd.init_app(app, uri='mongodb://localhost:27017/vendors')
+from blueprints.site_api import mongo as sd
+sd.init_app(app, uri='mongodb://localhost:27017/vendors')
 
 
 # routes

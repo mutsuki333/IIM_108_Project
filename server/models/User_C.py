@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy();
 shopDB = PyMongo();
+item = PyMongo()
 
 '''
 class for customer user.
@@ -24,6 +25,7 @@ class User_C(UserMixin, db.Model):
     gender = db.Column(db.Enum('m','f','a'))
     first_name = db.Column(db.String(20))
     last_name = db.Column(db.String(20))
+    photo = db.Column(db.String(120))
     MongoID = db.Column(db.String(24))
 
     record = None
@@ -40,8 +42,29 @@ class User_C(UserMixin, db.Model):
     def get_record(self):
         self.record = shopDB.db.customer_records.find_one({'_id':ObjectId(self.MongoID)})
 
+    def add_to_cart(self,id):
+        shopDB.db.customer_records.update_one({'_id':ObjectId(self.MongoID)},
+        {'$push':{'cart':id}})
+
+    def remove_from_cart(self,id):
+        shopDB.db.customer_records.update_one({'_id':ObjectId(self.MongoID)},
+        {'$pull':{'cart':id}},False)
+
+    def cart(self):
+        cart=shopDB.db.customer_records.find_one({'_id':ObjectId(self.MongoID)})['cart']
+        obj = []
+        for x in cart:
+            for y in item.db.items.find({'_id':ObjectId(x)}):
+                y['_id']='{}'.format(y['_id'])
+                y['categoryID']='{}'.format(y['categoryID'])
+                # y.pop('_id')
+                # y.pop('categoryID')
+                obj.append(y)
+        return obj
+
     def set_data(self, name, data):
         if name is None:return
+        print(name,data)
         if name =='email'and re.match('\w+@\w+',data)is not None:self.email=data
         elif name =='mobile' and re.match('09\d{8}',data)is not None:self.mobile=data
         elif name =='date_of_birth' and re.match('(19|20)\d{2}-[10]\d-[3210]\d',data)is not None:
@@ -62,6 +85,7 @@ class User_C(UserMixin, db.Model):
         'gender' :self.gender,
         'first_name' :self.first_name,
         'last_name' :self.last_name,
+        'photo' : self.photo,
         'mongoID' : self.MongoID
         }
 

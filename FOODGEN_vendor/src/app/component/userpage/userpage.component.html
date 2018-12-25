@@ -1,7 +1,7 @@
 <div class="padding"></div>
 
 <mat-card class="example-card">
-  <img mat-card-image class="user-image" src="https://i.imgur.com/P5zUOzV.jpg">
+  <img mat-card-image class="user-image" src="{{photo}}">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{shop_name}}</mat-card-title>
@@ -37,6 +37,7 @@
 <div class="manage-button">
   <button mat-flat-button style="background-color:#F8CF77" [routerLink]="['/manage-goods']">修改商品</button>
   <button mat-flat-button style="background-color:#F8CF77;left:20px" [routerLink]="['/manage-order']">管理訂單</button>
+  <!-- <button mat-flat-button style="background-color:#F8CF77;left:40px" [routerLink]="['/manage-announcement']">管理宣傳</button> -->
 </div>
 
 

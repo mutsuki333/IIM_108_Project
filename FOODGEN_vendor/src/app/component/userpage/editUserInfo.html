@@ -1,7 +1,12 @@
+<div style="margin: 10px 0px;padding-top: 0px;color: #D8000C;background-color: #FFD2D2;" *ngFor="let err of err_msg">
+   {{err}}
+</div>
 <mat-nav-list>
-  <a href="" mat-list-item (click)="openLink($event)">
+
+  <div mat-list-item >
     <span mat-line>上傳新頭貼</span>
-  </a>
+    <input type="file" (change)="onFileChanged($event)" #fileInput placeholder="輸入商品名稱" class="form-full-width">
+  </div>
 
   <mat-expansion-panel mat-list-item>
     <mat-expansion-panel-header>
@@ -11,23 +16,20 @@
     </mat-expansion-panel-header>
 
     <mat-form-field style="width:100%">
-      <input matInput placeholder="Name">
+      <input matInput placeholder="店名" [(ngModel)]="shop_name">
     </mat-form-field>
 
     <mat-form-field style="width:100%">
-      <input matInput placeholder="Phone number">
+      <input matInput placeholder="電話號碼" [(ngModel)]="mobile">
     </mat-form-field>
     <mat-form-field style="width:100%">
-      <input matInput placeholder="Email">
+      <input matInput placeholder="Email" [(ngModel)]="email">
     </mat-form-field>
     <mat-form-field style="width:100%">
-      <input matInput placeholder="Address">
-    </mat-form-field>
-    <mat-form-field style="width:100%">
-      <input matInput placeholder="Password">
+      <input matInput placeholder="地址" [(ngModel)]="address">
     </mat-form-field>
     <mat-action-row>
-      <button mat-button>儲存</button>
+      <button mat-button (click)="save()">儲存</button>
     </mat-action-row>
   </mat-expansion-panel>
 

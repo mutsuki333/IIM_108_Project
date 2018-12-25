@@ -5,12 +5,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models.User_V import User_V
 from models.User_C import User_C
 
+test_mode=True
+
 customer_api = Blueprint('customer_api', __name__, url_prefix='/customer_api')
 login_manager = LoginManager()
 
 def test_user():
     session['customer']='True'
-    session.pop('vendor')
+    if session.get('vendor') is not None:session.pop('vendor')
     user = User_C.query.filter_by(username="admin333").first()
     login_user(user, remember=True)
 
@@ -27,13 +29,15 @@ def load_user(id):
 
 @customer_api.route('/profile')
 def profile():
+    if test_mode:test_user()
     if not current_user.is_authenticated:
-        test_user()
-        # return 'login require'
+        # test_user()
+        return 'login require'
     return jsonify(current_user.get_user_obj())
 
 @customer_api.route('/update_profile', methods=['GET', 'POST'])
 def update_profile():
+    if test_mode:test_user()
     if not current_user.is_authenticated:
         return 'login require'
     try:
@@ -41,14 +45,36 @@ def update_profile():
     except Exception as e:
         raise e
     for key, value in data.items():
-        if current_user.set_data(key,value) is not None:
-            return current_user.set_data(key,value)
+        current_user.set_data(key,value)
 
     return jsonify(current_user.get_user_obj())
 
 @customer_api.route('/ping')
 def ping():
     return 'pong'
+
+@customer_api.route('/add_to_cart/<id>')
+def add_to_cart(id):
+    if test_mode:test_user()
+    if not current_user.is_authenticated:
+        return 'login require'
+    current_user.add_to_cart(id)
+    return 'success'
+
+@customer_api.route('/remove_from_cart/<id>')
+def remove_from_cart(id):
+    if test_mode:test_user()
+    if not current_user.is_authenticated:
+        return 'login require'
+    current_user.remove_from_cart(id)
+    return 'success'
+
+@customer_api.route('/cart')
+def cart():
+    if test_mode:test_user()
+    if not current_user.is_authenticated:
+        return 'login require'
+    return jsonify(current_user.cart())
 
 @customer_api.route('/logout')
 def logout():
@@ -60,6 +86,8 @@ def logout():
 
 @customer_api.route('/is_logged_in')
 def state():
+    if test_mode:test_user()
+
     return '{}'.format(current_user.is_authenticated)
 
 @customer_api.route('/login', methods=['GET', 'POST'])
@@ -97,7 +125,9 @@ def register():
         user = User_C(
         username=data['username'],
         first_name=data['first_name'],
-        last_name=data['last_name']
+        last_name=data['last_name'],
+        email=data['email'],
+        mobile=data['mobile']
         )
         user.set_password(data['password'])
         user.set_record()
