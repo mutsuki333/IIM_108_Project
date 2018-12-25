@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models.User_V import User_V
 from models.User_C import User_C
 
-test_mode=True
+test_mode=False
 
 customer_api = Blueprint('customer_api', __name__, url_prefix='/customer_api')
 login_manager = LoginManager()
