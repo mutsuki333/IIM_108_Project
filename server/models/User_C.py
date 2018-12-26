@@ -140,7 +140,9 @@ class User_C(UserMixin, db.Model):
 
     def cancel_check(self,id):
         item.db.order.update_one({'_id':ObjectId(id)},
-        {'$set':{'status':'canceling'}})        
+        {'$set':{'status':'canceling'}})
+        item.db.order.update_one({'_id':ObjectId(id)},
+        {'$set':{'vendors.status':'canceling'}})   
         return 'success'
 
     def __repr__(self):

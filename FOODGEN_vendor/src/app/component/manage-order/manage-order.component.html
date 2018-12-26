@@ -8,52 +8,57 @@
 
 <mat-tab-group mat-align-tabs="center"  class="managetabs" dynamicHeight>
   <mat-tab label="訂單管理">
-    <div class="goods-box mat-elevation-z4">
+    <div *ngFor="let order of orders">
+    <div class="goods-box mat-elevation-z4" *ngIf="order.status=='processing'">
       <mat-grid-list cols="3" rowHeight="150px">
         <mat-grid-tile rowspan="1" colspan="2">
           <div class="goods-info">
-            <h4 style="margin-top:0px;margin-bottom:8px;">訂單編號:001</h4>
-            <span>顧客電話: 0911111111</span>
-            <h4 style="margin-top:8px;margin-bottom:8px;">品項: 3項</h4>
-            <span>金額: $100</span>
-            <h4 style="margin-top:8px;margin-bottom:8px;">預約時間: 09:00</h4>
+            <h4 style="margin-top:0px;margin-bottom:8px;">訂單編號 : {{order.order.substr(20,23)}}</h4>
+            <h4 style="margin-top:8px;margin-bottom:8px;">顧客號碼: {{order.customer}}</h4>
+            <span>金額: ${{order.item.item.base_price}}</span>
+            <h4 style="margin-top:8px;margin-bottom:8px;">預約時間: {{order.time}}</h4>
           </div>
         </mat-grid-tile>
         <mat-grid-tile>
           <div>
-            <button mat-flat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;" (click)="orderManagement.open()">訂單資訊</button>
+            <!-- <button mat-flat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;" (click)="orderManagement.open()">訂單資訊</button> -->
             <span class="toolbar-seprator"></span>
-            <button mat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;">完成訂單</button>
+            <button mat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;" (click)="accomplish(order.order,order.index)">完成訂單</button>
             <span class="toolbar-seprator"></span>
-            <button mat-button color="warn" style="width:100%;margin-top:8px;margin-bottom:8px;">取消訂單</button>
+            <button mat-button color="warn" style="width:100%;margin-top:8px;margin-bottom:8px;" (click)="cancel(order.order,order.index)">取消訂單</button>
           </div>
         </mat-grid-tile>
       </mat-grid-list>
-    </div>
+    </div></div>
   </mat-tab>
   <mat-tab label="歷史紀錄">
-    <div class="goods-box mat-elevation-z4">
+    <div *ngFor="let order of orders">
+    <div class="goods-box mat-elevation-z4" *ngIf="order.status!='processing'">
       <mat-grid-list cols="3" rowHeight="150px">
         <mat-grid-tile rowspan="1" colspan="2">
           <div class="goods-info">
-            <h4 style="margin-top:0px;margin-bottom:8px;">訂單編號:000</h4>
-            <span>顧客電話: 0921111111</span>
-            <h4 style="margin-top:8px;margin-bottom:8px;">品項: 3項</h4>
-            <span>金額: $100</span>
-            <h4 style="margin-top:8px;margin-bottom:8px;">預約時間: 08:00</h4>
+            <h4 style="margin-top:0px;margin-bottom:8px;">訂單編號 : {{order.order.substr(20,23)}}</h4>
+            <h4 style="margin-top:8px;margin-bottom:8px;">顧客號碼: {{order.customer}}</h4>
+            <span>金額: ${{order.item.item.base_price}}</span>
+            <h4 style="margin-top:8px;margin-bottom:8px;">預約時間: {{order.time}}</h4>
           </div>
         </mat-grid-tile>
         <mat-grid-tile>
-          <div>
-            <button mat-flat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;" (click)="orderHistory.open()">訂單資訊</button>
+          <mat-chip-list>
+            <mat-chip *ngIf="order.status=='accomplished'">已完成</mat-chip>
+            <mat-chip *ngIf="order.status=='canceling'">取消中</mat-chip>
+            <mat-chip *ngIf="order.status=='canceled'">已取消</mat-chip>
+          </mat-chip-list>
+          <!-- <div>
+            <button mat-flat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;">訂單資訊</button>
             <span class="toolbar-seprator"></span>
-            <mat-chip-list>
-              <mat-chip>已完成</mat-chip>
-            </mat-chip-list>
-          </div>
+            <button mat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;" (click)="accomplish()">完成訂單</button>
+            <span class="toolbar-seprator"></span>
+            <button mat-button color="warn" style="width:100%;margin-top:8px;margin-bottom:8px;" (click)="cancel()">取消訂單</button>
+          </div> -->
         </mat-grid-tile>
       </mat-grid-list>
-    </div>
+    </div></div>
   </mat-tab>
 </mat-tab-group>
 

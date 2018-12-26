@@ -74,5 +74,42 @@ class User_V(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def get_checks(self):
+        orders=mongo.db.order.find({'items':{'$elemMatch':{'vendorID':self.MongoID}}})
+        list=[]
+        for x in orders:
+            for y in x['vendors']:
+                if y['vendor']==self.MongoID:
+                    y['index']
+                    list.append({
+                        'status':y['status'],
+                        'item' : x['items'][y['index']],
+                        'customer' : x['customer'],
+                        'index' : y['index'],
+                        'order' : '{}'.format(x['_id']),
+                        'time' : x['time']
+                    })
+        return list
+
+    def cancel_check(self,order,index):
+        mongo.db.order.update_one({'_id':ObjectId(order),'vendors.index':int(index)},{'$set':{'vendors.$.status':'canceled'}})
+        # mongo.db.order.update_one({'_id':ObjectId(order),'vendors.index':index},
+        # {'$set':{'vendors.$.status':'canceled'}})
+        for x in mongo.db.order.find_one({'_id':ObjectId(order)})['vendors']:
+            if x['status']!='canceled': return 'success'
+        mongo.db.order.update_one({'_id':ObjectId(order)},
+        {'$set':{'status':'canceled'}})
+        return 'success'
+
+    def accomplish_check(self,order,index):
+        mongo.db.order.update_one({'_id':ObjectId(order),'vendors.index':int(index)},{'$set':{'vendors.$.status':'accomplished'}})
+        for x in mongo.db.order.find_one({'_id':ObjectId(order)})['vendors']:
+            if x['status']!='accomplished': return 'success'
+        mongo.db.order.update_one({'_id':ObjectId(order)},
+        {'$set':{'status':'accomplished'}})
+        return 'success'
+
+
+
     def __repr__(self):
         return 'User: {}'.format(self.username)

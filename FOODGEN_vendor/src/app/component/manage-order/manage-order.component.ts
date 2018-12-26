@@ -23,6 +23,20 @@ export class ManageOrderComponent implements OnInit {
   ngOnInit() {
     this.setup_h=false;
     this.setup=false;
+    this.httpRequestService.get_json('/vendor_api/get_checks')
+    .then((response)=>{
+      this.orders=response;
+      console.log(this.orders)
+    })
+    .catch(()=>this.router.navigate(['/login']))
+  }
+  cancel(order,index){
+    this.httpRequestService.get('/vendor_api/cancel_check/'+order+'/'+index)
+    this.ngOnInit()
+  }
+  accomplish(order,index){
+    this.httpRequestService.get('/vendor_api/accomplish_check/'+order+'/'+index)
+    this.ngOnInit()
   }
 
 }
