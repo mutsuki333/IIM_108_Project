@@ -3,21 +3,15 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource, MatCheckboxModule} from '@angular/material';
 import {MAT_STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import { Router } from '@angular/router';
+
+import { HttpRequestService } from '../../service/http-request.service'
 
 export interface Bill {
   name: string;
-  quantity: number;
   price: number;
-  total: number;
 }
 
-const ELEMENT_DATA: Bill[] = [
-  {quantity: 1, name: '品項1', price: 100, total: 100},
-  {quantity: 2, name: '品項2', price: 200, total: 100},
-  {quantity: 3, name: '品項3', price: 300, total: 100},
-  {quantity: 4, name: '品項4', price: 400, total: 100},
-  {quantity: 5, name: '品項5', price: 500, total: 100},
-];
 
 @Component({
   selector: 'app-checkout',
@@ -30,9 +24,14 @@ const ELEMENT_DATA: Bill[] = [
 export class CheckoutComponent implements OnInit {
   selected;
   payment;
+  items;
+  time;
+  amount=0;
 
-  displayedColumns: string[] = [ 'name', 'price','quantity', 'total'];
-  dataSource = new MatTableDataSource<Bill>(ELEMENT_DATA);
+  ELEMENT_DATA: Bill[] = [];
+
+  displayedColumns: string[] = [ 'name', 'price'];
+  dataSource = new MatTableDataSource<Bill>(this.ELEMENT_DATA);
   selection = new SelectionModel<Bill>(true, []);
 
   isAllSelected() {
@@ -49,12 +48,39 @@ export class CheckoutComponent implements OnInit {
 
   secondFormGroup: FormGroup;
 
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor(
+    private _formBuilder: FormBuilder,
+    private httpRequestService: HttpRequestService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+    this.httpRequestService.get_json('/customer_api/cart')
+    .then((response)=>{
+      this.items=response;
+      // console.log(this.items)
+      for (let item of this.items) {
+        this.ELEMENT_DATA.push({
+          name:item.item.name,
+          price:item.item.base_price
+        })
+        this.amount+=item.item.base_price;
+      }
+      console.log(this.ELEMENT_DATA)
+      this.dataSource = new MatTableDataSource<Bill>(this.ELEMENT_DATA);
+    })
   }
+  send(){
+    console.log(this.time)
+    this.httpRequestService.get('/customer_api/check/'+this.time)
+    .then((response)=>{
+      if(response.toString()=='success')this.router.navigate(['/manage-order'])
+      else alert(response.toString())
+    })
+    .catch((error)=>console.log(error)
+  )}
 
 }

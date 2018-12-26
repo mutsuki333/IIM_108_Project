@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models.User_V import User_V
 from models.User_C import User_C
 
-test_mode=False
+test_mode=True
 
 customer_api = Blueprint('customer_api', __name__, url_prefix='/customer_api')
 login_manager = LoginManager()
@@ -139,12 +139,12 @@ def register():
         # return jsonify(user.get_user_obj())
     return 'login require'
 
-@customer_api.route('/check')
-def check():
+@customer_api.route('/check/<t>')
+def check(t):
     if test_mode:test_user()
     if not current_user.is_authenticated:
         return 'login require'
-    return current_user.check()
+    return current_user.check(t)
 
 @customer_api.route('/get_checks')
 def get_checks():

@@ -105,7 +105,7 @@ class User_C(UserMixin, db.Model):
             obj.append(tmp)
         return obj
 
-    def check(self):
+    def check(self,t):
         items = self.cart()
         if len(items)<=0:return 'empty cart'
         total = 0
@@ -127,7 +127,8 @@ class User_C(UserMixin, db.Model):
             'ctr' : len(items),
             'customer' : self.MongoID,
             'items' : items,
-            'time' : time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+            # 'time' : time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+            'time' : t,
             'status' : 'processing',
             'total' : total
         }
@@ -142,7 +143,7 @@ class User_C(UserMixin, db.Model):
         item.db.order.update_one({'_id':ObjectId(id)},
         {'$set':{'status':'canceling'}})
         item.db.order.update_one({'_id':ObjectId(id)},
-        {'$set':{'vendors.status':'canceling'}})   
+        {'$set':{'vendors.$.status':'canceling'}})
         return 'success'
 
     def __repr__(self):

@@ -46,12 +46,17 @@ export class ShoppingCartComponent implements OnInit {
 
   }
   send(){
-    this.httpRequestService.get('/customer_api/check')
-    .then((response)=>{
-      if(response.toString()=='success')this.router.navigate(['/manage-order'])
-      else alert(response.toString())
-    })
-    .catch((error)=>console.log(error))
+    if(this.items.length<=0){
+      alert('購物車內沒有商品')
+      this.router.navigate(['/home'])
+    }
+    else this.router.navigate(['/checkout'])
+    // this.httpRequestService.get('/customer_api/check')
+    // .then((response)=>{
+    //   if(response.toString()=='success')this.router.navigate(['/manage-order'])
+    //   else alert(response.toString())
+    // })
+    // .catch((error)=>console.log(error))
   }
 
 }

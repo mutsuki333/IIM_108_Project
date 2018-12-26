@@ -9,6 +9,7 @@ import { UserOrderComponent } from './component/user-order/user-order.component'
 import { NotFoundComponent } from './component/not-found/not-found.component'
 import { ShoppingCartComponent } from './component/shopping-cart/shopping-cart.component'
 import { ManageOrderComponent } from './component/manage-order/manage-order.component'
+import { CheckoutComponent } from './component/checkout/checkout.component'
 
 import { TestComponent } from './component/test/test.component'
 
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'user-order', component: UserOrderComponent },
   { path: 'shopping-cart', component: ShoppingCartComponent },
   { path: 'manage-order', component: ManageOrderComponent },
+  { path: 'checkout', component: CheckoutComponent },
   { path: '404', component: NotFoundComponent},
   { path: '**', redirectTo: '/404'},
   { path: 'test', component: TestComponent}
