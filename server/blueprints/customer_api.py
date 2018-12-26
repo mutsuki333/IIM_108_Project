@@ -80,7 +80,10 @@ def cart():
 def logout():
 # if 'customer' in session and session['customer']=='True':
     logout_user()
-    # session.pop('customer',None)
+    if 'vendor' in session and session['vendor']=='True':
+        session.pop('vendor',None)
+    if 'customer' in session and session['customer']=='True':
+        session.pop('customer',None)
     return 'logged out!'
 # return 'not logged in'
 

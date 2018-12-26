@@ -11,8 +11,6 @@ vendor_api = Blueprint('vendor_api', __name__, url_prefix='/vendor_api')
 login_manager = LoginManager()
 
 def test_user():
-    session['vendor']='True'
-    if session.get('customer') is not None:session.pop('customer')
     user = User_V.query.filter_by(username="admin333").first()
     if user.profile is None:user.init_profile()
     login_user(user, remember=True)
@@ -131,7 +129,10 @@ def delete_items(cat_name,item_name):
 def logout():
 # if 'vendor' in session and session['vendor']=='True':
     logout_user()
-    # session.pop('vendor',None)
+    if 'vendor' in session and session['vendor']=='True':
+        session.pop('vendor',None)
+    if 'customer' in session and session['customer']=='True':
+        session.pop('customer',None)
     return 'logged out!'
 # return 'not logged in'
 
