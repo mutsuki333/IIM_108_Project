@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { HttpRequestService } from '../../service/http-request.service'
 
 @Component({
   selector: 'app-manage-order',
@@ -7,9 +10,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageOrderComponent implements OnInit {
 
-  constructor() { }
+  orders;
+  setup;
+  setup_h;
+  order_tmp;
+
+  constructor(
+    private httpRequestService: HttpRequestService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    this.setup_h=false;
+    this.setup=false;
+    this.httpRequestService.get_json('/customer_api/get_checks')
+    .then((response)=>{
+      console.log(response)
+      this.orders=response;
+    })
+  }
+  cancel(id:string){
+    this.httpRequestService.get('/customer_api/cancel_check/'+id)
+    this.ngOnInit()
   }
 
 }

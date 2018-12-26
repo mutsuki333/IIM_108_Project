@@ -14,7 +14,8 @@
   </button>
 </mat-toolbar>
 
-<mat-sidenav-container class="nav-container" hasBackdrop="true" (backdropClick)="close('backdrop')" (focusout)="sideNav.close()">
+<mat-sidenav-container class="nav-container" hasBackdrop="true" (backdropClick)="close('backdrop')">
+<!-- (focusout)="sideNav.close()" -->
   <mat-sidenav #sideNav class="nav-sidenav" mode="over" fixedInViewport="true">
     <mat-nav-list>
       <mat-tab-group mat-align-tabs="center">

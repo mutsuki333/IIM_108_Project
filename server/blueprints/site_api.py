@@ -3,6 +3,7 @@ from bson.objectid import ObjectId
 from flask_pymongo import PyMongo
 
 from models.User_V import User_V
+from models.User_C import User_C
 
 site_api = Blueprint('site_api', __name__, url_prefix='/site_api')
 mongo =  PyMongo()
@@ -39,6 +40,11 @@ def pp():
     return 'yy'
 
 @site_api.route('/vendor_profile/<id>')
-def profile(id):
+def vprofile(id):
     user = User_V.query.filter_by(MongoID=id).first()
+    return jsonify(user.get_user_obj())
+
+@site_api.route('/customer_profile/<id>')
+def cprofile(id):
+    user = User_C.query.filter_by(MongoID=id).first()
     return jsonify(user.get_user_obj())

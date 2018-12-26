@@ -1,4 +1,4 @@
-import re
+import re, time
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from flask_pymongo import PyMongo
@@ -41,6 +41,7 @@ class User_C(UserMixin, db.Model):
 
     def get_record(self):
         self.record = shopDB.db.customer_records.find_one({'_id':ObjectId(self.MongoID)})
+        return self.record
 
     def add_to_cart(self,id):
         shopDB.db.customer_records.update_one({'_id':ObjectId(self.MongoID)},
@@ -59,6 +60,8 @@ class User_C(UserMixin, db.Model):
                 y['categoryID']='{}'.format(y['categoryID'])
                 # y.pop('_id')
                 # y.pop('categoryID')
+                y.pop('index')
+                y['item'].pop('ctr')
                 obj.append(y)
         return obj
 
@@ -93,12 +96,52 @@ class User_C(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def get_cart(self):
-        pass
-    def addToCart(self,index):
-        pass
-    def removeFromCart(self,index):
-        pass
+    def get_checks(self):
+        history = shopDB.db.customer_records.find_one({'_id':ObjectId(self.MongoID)})['history']
+        obj = []
+        for id in history:
+            tmp = item.db.order.find_one({'_id':ObjectId(id)})
+            tmp['_id']='{}'.format(tmp['_id'])
+            obj.append(tmp)
+        return obj
+
+    def check(self):
+        items = self.cart()
+        if len(items)<=0:return 'empty cart'
+        total = 0
+        vendors = []
+        i=0
+        for x in items:
+            x['vendorID']='{}'.format(item.db.category.find_one({'_id':ObjectId(x['categoryID'])},{'vendorID':1})['vendorID'])
+            vendors.append({
+            'vendor':x['vendorID'],
+            'status':'processing',
+            'index' : i,
+            'item':x['_id']
+            })
+            total += x['item']['base_price']
+            i+=1
+            # print(x)
+        order={
+            'vendors' : vendors,
+            'ctr' : len(items),
+            'customer' : self.MongoID,
+            'items' : items,
+            'time' : time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+            'status' : 'processing',
+            'total' : total
+        }
+        # print(order)
+        shopDB.db.customer_records.update_one({'_id':ObjectId(self.MongoID)},{'$set':{'cart':[]}})
+        shopDB.db.customer_records.update_one({'_id':ObjectId(self.MongoID)},
+        {'$push':{'history':'{}'.format(item.db.order.insert_one(order).inserted_id)}})
+        # print(self.get_record())
+        return 'success'
+
+    def cancel_check(self,id):
+        item.db.order.update_one({'_id':ObjectId(id)},
+        {'$set':{'status':'canceling'}})        
+        return 'success'
 
     def __repr__(self):
         return 'User: {}'.format(self.username)

@@ -33,7 +33,7 @@ export class ShoppingCartComponent implements OnInit {
     this.httpRequestService.get_json('/customer_api/cart')
     .then((response)=>{
       this.items=response;
-      console.log(this.items)
+      // console.log(this.items)
       for (let item of response) {
           this.amount+=item.item.base_price;
       }
@@ -46,7 +46,12 @@ export class ShoppingCartComponent implements OnInit {
 
   }
   send(){
-
+    this.httpRequestService.get('/customer_api/check')
+    .then((response)=>{
+      if(response.toString()=='success')this.router.navigate(['/manage-order'])
+      else alert(response.toString())
+    })
+    .catch((error)=>console.log(error))
   }
 
 }

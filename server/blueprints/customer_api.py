@@ -135,3 +135,24 @@ def register():
         return 'success'
         # return jsonify(user.get_user_obj())
     return 'login require'
+
+@customer_api.route('/check')
+def check():
+    if test_mode:test_user()
+    if not current_user.is_authenticated:
+        return 'login require'
+    return current_user.check()
+
+@customer_api.route('/get_checks')
+def get_checks():
+    if test_mode:test_user()
+    if not current_user.is_authenticated:
+        return 'login require'
+    return jsonify(current_user.get_checks())
+
+@customer_api.route('/cancel_check/<id>')
+def cancel_check(id):
+    if test_mode:test_user()
+    if not current_user.is_authenticated:
+        return 'login require'
+    return current_user.cancel_check(id)

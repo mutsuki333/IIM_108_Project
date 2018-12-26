@@ -8,52 +8,66 @@
 
 <mat-tab-group mat-align-tabs="center"  class="managetabs" dynamicHeight>
   <mat-tab label="訂單管理">
-    <div class="goods-box mat-elevation-z4">
+    <div *ngFor="let order of orders">
+    <div class="goods-box mat-elevation-z4" *ngIf="order.status=='processing'">
       <mat-grid-list cols="3" rowHeight="150px">
         <mat-grid-tile rowspan="1" colspan="2">
           <div class="goods-info">
-            <h4 style="margin-top:0px;margin-bottom:8px;">訂單編號:001</h4>
-            <span>顧客電話: 0911111111</span>
-            <h4 style="margin-top:8px;margin-bottom:8px;">品項: 3項</h4>
-            <span>金額: $100</span>
-            <h4 style="margin-top:8px;margin-bottom:8px;">預約時間: 09:00</h4>
+            <h4 style="margin-top:0px;margin-bottom:8px;">訂單編號 : {{order._id.substr(20,23)}}</h4>
+            <span>狀態: {{order.status}}</span>
+            <h4 style="margin-top:8px;margin-bottom:8px;">品項: {{order.ctr}}項</h4>
+            <span>金額: ${{order.total}}</span>
+            <h4 style="margin-top:8px;margin-bottom:8px;">預約時間: {{order.time}}</h4>
           </div>
         </mat-grid-tile>
         <mat-grid-tile>
           <div>
-            <button mat-flat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;" (click)="orderManagement.open()">訂單資訊</button>
+            <button mat-flat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;"
+            (click)="
+              orderManagement.open();
+              setup=true;
+              order_tmp=order;
+            ">訂單資訊</button>
             <span class="toolbar-seprator"></span>
-            <button mat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;">完成訂單</button>
+            <!-- <button mat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;">完成訂單</button> -->
             <span class="toolbar-seprator"></span>
-            <button mat-button color="warn" style="width:100%;margin-top:8px;margin-bottom:8px;">取消訂單</button>
+            <button mat-button color="warn" style="width:100%;margin-top:8px;margin-bottom:8px;" (click)="cancel(order._id)">取消訂單</button>
           </div>
         </mat-grid-tile>
       </mat-grid-list>
-    </div>
+    </div></div>
   </mat-tab>
   <mat-tab label="歷史紀錄">
-    <div class="goods-box mat-elevation-z4">
+    <div *ngFor="let order of orders">
+    <div class="goods-box mat-elevation-z4" *ngIf="order.status!='processing'">
       <mat-grid-list cols="3" rowHeight="150px">
         <mat-grid-tile rowspan="1" colspan="2">
           <div class="goods-info">
-            <h4 style="margin-top:0px;margin-bottom:8px;">訂單編號:000</h4>
-            <span>顧客電話: 0921111111</span>
-            <h4 style="margin-top:8px;margin-bottom:8px;">品項: 3項</h4>
-            <span>金額: $100</span>
-            <h4 style="margin-top:8px;margin-bottom:8px;">預約時間: 08:00</h4>
+            <h4 style="margin-top:0px;margin-bottom:8px;">訂單編號 : {{order._id.substr(20,23)}}</h4>
+            <!-- <span>狀態: {{order.status}}</span> -->
+            <h4 style="margin-top:8px;margin-bottom:8px;">品項: {{order.ctr}}項</h4>
+            <span>金額: ${{order.total}}</span>
+            <h4 style="margin-top:8px;margin-bottom:8px;">預約時間: {{order.time}}</h4>
           </div>
         </mat-grid-tile>
         <mat-grid-tile>
           <div>
-            <button mat-flat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;" (click)="orderHistory.open()">訂單資訊</button>
+            <button mat-flat-button style="width:100%;background-color:#F8CF77;color:#725F58;margin-top:8px;margin-bottom:8px;"
+            (click)="
+              orderHistory.open();
+              setup_h=true;
+              order_tmp=order;
+            ">訂單資訊</button>
             <span class="toolbar-seprator"></span>
             <mat-chip-list>
-              <mat-chip>已完成</mat-chip>
+              <mat-chip *ngIf="order.status=='accomplished'">已完成</mat-chip>
+              <mat-chip *ngIf="order.status=='canceling'">取消中</mat-chip>
+              <mat-chip *ngIf="order.status=='canceled'">已取消</mat-chip>
             </mat-chip-list>
           </div>
         </mat-grid-tile>
       </mat-grid-list>
-    </div>
+    </div></div>
   </mat-tab>
 </mat-tab-group>
 
@@ -71,79 +85,39 @@
 
     </mat-toolbar>
     </div>
-
-    <div class="form-box">
+    <div class="form-box" *ngIf="setup">
       <mat-list>
-        <mat-list-item>訂單編號: 001</mat-list-item>
+        <mat-list-item>訂單編號: {{order_tmp._id.substr(20,23)}}</mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item>顧客電話: 0911111111</mat-list-item>
+        <!-- <mat-list-item>顧客電話: 0911111111</mat-list-item> -->
         <mat-divider></mat-divider>
-        <mat-list-item>金額: $100</mat-list-item>
+        <mat-list-item>金額: ${{order_tmp.total}}</mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item>預約時間: 09:00</mat-list-item>
+        <mat-list-item>預約時間: {{order_tmp.time}}</mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item>品項:</mat-list-item>
+        <mat-list-item>品項: {{order_tmp.ctr}}項</mat-list-item>
       </mat-list>
-      <div class="goods-box mat-elevation-z4">
+      <div class="goods-box mat-elevation-z4" *ngFor="let item of order_tmp.items">
         <mat-grid-list cols="2" rowHeight="150px">
           <mat-grid-tile>
-            <img class="goods-image" src="https://i.imgur.com/HVPrChy.jpg">
+            <img class="goods-image" src="{{item.item.pic}}">
           </mat-grid-tile>
           <mat-grid-tile rowspan="1">
             <div class="goods-info">
-              <h3 style="margin-top:0px;margin-bottom:15px">蔥油餅</h3>
+              <h3 style="margin-top:0px;margin-bottom:15px">{{item.item.name}}</h3>
+              <span>{{item.item.description}}</span>
               <mat-chip-list>
-                <mat-chip>加蛋</mat-chip>
-                <mat-chip>加大</mat-chip>
-                <mat-chip>不要胡椒</mat-chip>
+                <div *ngFor="let attr of item.item.attribute">
+                  <mat-chip>{{attr}}</mat-chip>
+                </div>
               </mat-chip-list>
-              <h4 style="margin-top:15px;margin-bottom:15px">共1份, $33</h4>
+              <h4 style="margin-top:15px;margin-bottom:15px">${{item.item.base_price}}</h4>
             </div>
           </mat-grid-tile>
         </mat-grid-list>
       </div>
-      <div class="goods-box mat-elevation-z4">
-        <mat-grid-list cols="2" rowHeight="150px">
-          <mat-grid-tile>
-            <img class="goods-image" src="https://i.imgur.com/HVPrChy.jpg">
-          </mat-grid-tile>
-          <mat-grid-tile rowspan="1">
-            <div class="goods-info">
-              <h3 style="margin-top:0px;margin-bottom:15px">蔥油餅</h3>
-              <mat-chip-list>
-                <mat-chip>加蛋</mat-chip>
-                <mat-chip>加大</mat-chip>
-                <mat-chip>要胡椒</mat-chip>
-              </mat-chip-list>
-              <h4 style="margin-top:15px;margin-bottom:15px">共1份, $33</h4>
-            </div>
-          </mat-grid-tile>
-        </mat-grid-list>
-      </div>
-      <div class="goods-box mat-elevation-z4">
-        <mat-grid-list cols="2" rowHeight="150px">
-          <mat-grid-tile>
-            <img class="goods-image" src="https://i.imgur.com/HVPrChy.jpg">
-          </mat-grid-tile>
-          <mat-grid-tile rowspan="1">
-            <div class="goods-info">
-              <h3 style="margin-top:0px;margin-bottom:15px">蔥油餅</h3>
-              <mat-chip-list>
-                <mat-chip>不加蛋</mat-chip>
-                <mat-chip>加大</mat-chip>
-                <mat-chip>要胡椒</mat-chip>
-              </mat-chip-list>
-              <h4 style="margin-top:15px;margin-bottom:15px">共1份, $33</h4>
-
-              <h4>共1份</h4>
-            </div>
-          </mat-grid-tile>
-        </mat-grid-list>
-      </div>
-
-
-
     </div>
+
   </mat-sidenav>
 
   <mat-sidenav-content>
@@ -163,72 +137,33 @@
     </mat-toolbar>
     </div>
 
-    <div class="form-box">
+    <div class="form-box" *ngIf="setup_h">
       <mat-list>
-        <mat-list-item>訂單編號: 000</mat-list-item>
+        <mat-list-item>訂單編號: {{order_tmp._id.substr(20,23)}}</mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item>顧客電話: 0921111111</mat-list-item>
+        <!-- <mat-list-item>顧客電話: 0911111111</mat-list-item> -->
         <mat-divider></mat-divider>
-        <mat-list-item>金額: $100</mat-list-item>
+        <mat-list-item>金額: ${{order_tmp.total}}</mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item>預約時間: 08:00</mat-list-item>
+        <mat-list-item>預約時間: {{order_tmp.time}}</mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item>狀態: 已完成</mat-list-item>
-        <mat-divider></mat-divider>
-        <mat-list-item>品項:</mat-list-item>
+        <mat-list-item>品項: {{order_tmp.ctr}}項</mat-list-item>
       </mat-list>
-      <div class="goods-box mat-elevation-z4">
+      <div class="goods-box mat-elevation-z4" *ngFor="let item of order_tmp.items">
         <mat-grid-list cols="2" rowHeight="150px">
           <mat-grid-tile>
-            <img class="goods-image" src="https://i.imgur.com/HVPrChy.jpg">
+            <img class="goods-image" src="{{item.item.pic}}">
           </mat-grid-tile>
           <mat-grid-tile rowspan="1">
             <div class="goods-info">
-              <h3 style="margin-top:0px;margin-bottom:15px">蔥油餅</h3>
+              <h3 style="margin-top:0px;margin-bottom:15px">{{item.item.name}}</h3>
+              <span>{{item.item.description}}</span>
               <mat-chip-list>
-                <mat-chip>加蛋</mat-chip>
-                <mat-chip>加大</mat-chip>
-                <mat-chip>不要胡椒</mat-chip>
+                <div *ngFor="let attr of item.item.attribute">
+                  <mat-chip>{{attr}}</mat-chip>
+                </div>
               </mat-chip-list>
-              <h4 style="margin-top:15px;margin-bottom:15px">共1份, $33</h4>
-            </div>
-          </mat-grid-tile>
-        </mat-grid-list>
-      </div>
-      <div class="goods-box mat-elevation-z4">
-        <mat-grid-list cols="2" rowHeight="150px">
-          <mat-grid-tile>
-            <img class="goods-image" src="https://i.imgur.com/HVPrChy.jpg">
-          </mat-grid-tile>
-          <mat-grid-tile rowspan="1">
-            <div class="goods-info">
-              <h3 style="margin-top:0px;margin-bottom:15px">蔥油餅</h3>
-              <mat-chip-list>
-                <mat-chip>加蛋</mat-chip>
-                <mat-chip>加大</mat-chip>
-                <mat-chip>要胡椒</mat-chip>
-              </mat-chip-list>
-              <h4 style="margin-top:15px;margin-bottom:15px">共1份, $33</h4>
-            </div>
-          </mat-grid-tile>
-        </mat-grid-list>
-      </div>
-      <div class="goods-box mat-elevation-z4">
-        <mat-grid-list cols="2" rowHeight="150px">
-          <mat-grid-tile>
-            <img class="goods-image" src="https://i.imgur.com/HVPrChy.jpg">
-          </mat-grid-tile>
-          <mat-grid-tile rowspan="1">
-            <div class="goods-info">
-              <h3 style="margin-top:0px;margin-bottom:15px">蔥油餅</h3>
-              <mat-chip-list>
-                <mat-chip>不加蛋</mat-chip>
-                <mat-chip>加大</mat-chip>
-                <mat-chip>要胡椒</mat-chip>
-              </mat-chip-list>
-              <h4 style="margin-top:15px;margin-bottom:15px">共1份, $33</h4>
-
-              <h4>共1份</h4>
+              <h4 style="margin-top:15px;margin-bottom:15px">${{item.item.base_price}}</h4>
             </div>
           </mat-grid-tile>
         </mat-grid-list>

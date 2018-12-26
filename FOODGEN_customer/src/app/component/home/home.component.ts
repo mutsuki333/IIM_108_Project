@@ -71,8 +71,17 @@ export class HomeComponent implements OnInit {
 
   addToCart(id){
     // console.log(id)
+    this.httpRequestService.get('/customer_api/is_logged_in')
+    .then((response)=>{
+      console.log()
+      if(response.toString()=='False')this.router.navigate(['/login'])
+      else alert('成功')
+    })
+    .catch((error)=>{
+      console.log(error);
+      this.router.navigate(['/login']);
+    })
     this.httpRequestService.get('/customer_api/add_to_cart/'+id)
-    alert('成功')
   }
   selected_item(item:any){
     this.setup=true
