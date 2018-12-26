@@ -78,11 +78,11 @@ def cart():
 
 @customer_api.route('/logout')
 def logout():
-    if 'customer' in session and session['customer']=='True':
-        logout_user()
-        session.pop('customer',None)
-        return 'logged out!'
-    return 'not logged in'
+# if 'customer' in session and session['customer']=='True':
+    logout_user()
+    # session.pop('customer',None)
+    return 'logged out!'
+# return 'not logged in'
 
 @customer_api.route('/is_logged_in')
 def state():

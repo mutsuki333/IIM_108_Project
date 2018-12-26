@@ -129,11 +129,11 @@ def delete_items(cat_name,item_name):
 
 @vendor_api.route('/logout')
 def logout():
-    if 'vendor' in session and session['vendor']=='True':
-        logout_user()
-        session.pop('vendor',None)
-        return 'logged out!'
-    return 'not logged in'
+# if 'vendor' in session and session['vendor']=='True':
+    logout_user()
+    # session.pop('vendor',None)
+    return 'logged out!'
+# return 'not logged in'
 
 @vendor_api.route('/is_logged_in')
 def state():

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { HttpRequestService } from '../../service/http-request.service'
 
@@ -10,14 +11,25 @@ import { HttpRequestService } from '../../service/http-request.service'
 })
 export class ShoppingCartComponent implements OnInit {
   items;
+  selected;
   amount=0;
 
   constructor(
-    private httpRequestService: HttpRequestService
+    private httpRequestService: HttpRequestService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.amount=0;
+    this.httpRequestService.get('/customer_api/is_logged_in')
+    .then((response)=>{
+      console.log()
+      if(response.toString()=='False')this.router.navigate(['/login'])
+    })
+    .catch((error)=>{
+      console.log(error);
+      this.router.navigate(['/login']);
+    })
     this.httpRequestService.get_json('/customer_api/cart')
     .then((response)=>{
       this.items=response;
