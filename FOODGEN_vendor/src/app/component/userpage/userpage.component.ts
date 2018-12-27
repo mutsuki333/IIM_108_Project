@@ -37,8 +37,6 @@ export class UserpageComponent implements OnInit {
     .then(
       (response)=>{
         // console.log(response['obj']['info']['address'])
-        this.photo=response['obj']['info']['photo']==undefined?
-        'https://i.imgur.com/P5zUOzV.jpg':response['obj']['info']['photo']
         this.mobile=response['mobile']
         this.email=response['email']
         this.name=response['last_name']

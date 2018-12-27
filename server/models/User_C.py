@@ -73,6 +73,7 @@ class User_C(UserMixin, db.Model):
         elif name =='date_of_birth' and re.match('(19|20)\d{2}-[10]\d-[3210]\d',data)is not None:
             self.date_of_birth=data
         elif name =='gender' and re.match('[mfa]{1}',data)is not None:self.gender=data
+        elif name =='photo' :self.photo=data
         else: return 'Invalid {}'.format(name)
         self.add_user()
         return
