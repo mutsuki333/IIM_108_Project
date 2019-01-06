@@ -1,8 +1,3 @@
-# desktop_app/
-# doc/
-# graphs/
-# mobile_app/
-# server_setting/
-# test_case/
-# web_app/
-# webservice/
+# Gruaduation Project of IIM, NCKU
+### by 劉恩孟、楊甯文、王毓淳、陳逸帆
+#### And special thanks to [許庭禎](@JamesHsu333)
