@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class HttpRequestService {
 
   private headers: any = new Headers({'Content-Type': 'application/json'});
-  public host: string = 'http://54.71.220.94';
+  public host: string = 'http://54.71.220.94/foodgen';
   // public host: string = 'http://localhost:5000';
 
   // private mode: object ={responseType: 'text',withCredentials: true}
