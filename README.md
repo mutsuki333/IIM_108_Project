@@ -11,18 +11,22 @@ directed by [劉任修](https://researchoutput.ncku.edu.tw/zh/persons/ren-shiou-
 </object>
 
 ### Poster
-<object data="http://yoursite.com/the.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="http://yoursite.com/the.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://yoursite.com/the.pdf">Download PDF</a>.</p>
+<object data="/docs/專題海報4.0.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="/docs/專題海報4.0.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="/docs/專題海報4.0.pdf">Download PDF</a>.</p>
     </embed>
 </object>
 
 ### Slides
-<object data="http://yoursite.com/the.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="http://yoursite.com/the.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://yoursite.com/the.pdf">Download PDF</a>.</p>
+<object data="http://mutsuki333.github.io/IIM_108_Project/foodgen3.0.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="http://mutsuki333.github.io/IIM_108_Project/foodgen3.0.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://mutsuki333.github.io/IIM_108_Project/foodgen3.0.pdf">Download PDF</a>.</p>
     </embed>
 </object>
+
+### Links to the application
+[Vendor](http://54.71.220.94/vendor-app/)  
+[Customer](http://54.71.220.94/customer-app/)
 
 ### Structure of this project
 ```bash
@@ -31,7 +35,6 @@ directed by [劉任修](https://researchoutput.ncku.edu.tw/zh/persons/ren-shiou-
 ├── FOODGEN_customer
 ├── FOODGEN_vendor
 ├── README.md
-├── client_id.json
 ├── database
 ├── docs
 ├── server
